@@ -1,26 +1,148 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220"
-     font-family="'Source Sans 3', Arial, sans-serif">
-  <rect width="640" height="220" fill="#f5f3ee"/>
-  <rect x="1" y="1" width="638" height="218" fill="none" stroke="#d9d9d9" stroke-width="1"/>
-  <text x="320" y="88"
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 836 748" width="836" height="748"
+     aria-label="Product Master Data Model — Entity Relationship Diagram">
+
+  <!-- Background -->
+  <rect width="836" height="748" fill="#f5f3ee"/>
+
+  <defs>
+    <marker id="erd-arrow" markerWidth="8" markerHeight="6"
+            refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#595959"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="418" y="22"
         text-anchor="middle"
         font-family="'Playfair Display', Georgia, serif"
-        font-size="20" font-weight="700" fill="#0d0d0d">
-    Product Master Data Model — ERD
+        font-size="14" font-weight="700" fill="#0d0d0d">
+    Product Master Data Model — CHP-0009
   </text>
-  <text x="320" y="118"
+  <text x="418" y="36"
         text-anchor="middle"
-        font-size="13" fill="#595959">
-    Final SVG generated from the Interactive view in the browser.
+        font-family="'Source Sans 3', Arial, sans-serif"
+        font-size="10" fill="#595959">
+    master.lailarallc.com — Lailara LLC
   </text>
-  <text x="320" y="138"
-        text-anchor="middle"
-        font-size="11" fill="#595959">
-    Open master.lailarallc.com, switch to Interactive, then use the download button.
-  </text>
-  <text x="320" y="170"
-        text-anchor="middle"
-        font-size="10" fill="#b3b3b3" font-style="italic">
-    Built by Lailara LLC — lailarallc.com
-  </text>
+
+  <g transform="translate(0,10)">
+
+    <!-- ── Edges ── -->
+    <g class="erd-edges">
+      <path d="M308,171.612L150,240L150,272" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <text x="150" y="235" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">has packaging levels</text>
+
+      <path d="M150,476L150,508L150,540" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <text x="150" y="503" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">assigned GTINs</text>
+
+      <path d="M418,208L418,240L418,281" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <text x="418" y="235" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">has retailer attributes</text>
+
+      <path d="M418,467L418,508L418,549" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <text x="418" y="503" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">consumed by</text>
+
+      <path d="M528,171.612L686,240L686,308" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <text x="686" y="235" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">syndicated to</text>
+    </g>
+
+    <!-- ── Nodes ── -->
+
+    <!-- dim_products -->
+    <g transform="translate(308,40)">
+      <rect width="220" height="168" rx="2" fill="#ffffff" stroke="#1f2e7a" stroke-width="1.5"/>
+      <rect width="220" height="32" rx="2" fill="#1f2e7a"/>
+      <rect width="220" height="4" y="28" fill="#1f2e7a"/>
+      <text x="10" y="22" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="12" font-weight="700">dim_products</text>
+      <text x="10" y="46" fill="#595959" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5">Anchor · Cinderhaven canonical</text>
+      <line x1="0" x2="220" y1="64" y2="64" stroke="#d9d9d9" stroke-width="1"/>
+      <text x="10" y="78"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">sku  PK</text>
+      <text x="10" y="96"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">product_name</text>
+      <text x="10" y="114" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">upc  (GTIN-12)</text>
+      <text x="10" y="132" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">case_gtin14</text>
+      <text x="212" y="132" text-anchor="end" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="9" font-weight="600">NULL</text>
+      <text x="10" y="150" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">case_pack_qty</text>
+    </g>
+
+    <!-- dim_packaging_levels -->
+    <g transform="translate(40,272)">
+      <rect width="220" height="204" rx="2" fill="#ffffff" stroke="#1f2e7a" stroke-width="1.5"/>
+      <rect width="220" height="32" rx="2" fill="#1f2e7a"/>
+      <rect width="220" height="4" y="28" fill="#1f2e7a"/>
+      <text x="10" y="22" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="12" font-weight="700">dim_packaging_levels</text>
+      <text x="10" y="46" fill="#595959" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5">each | inner | case | pallet</text>
+      <line x1="0" x2="220" y1="64" y2="64" stroke="#d9d9d9" stroke-width="1"/>
+      <text x="10" y="78"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">sku  FK (composite PK)</text>
+      <text x="10" y="96"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">packaging_level  PK</text>
+      <text x="10" y="114" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">quantity_per_level</text>
+      <text x="10" y="132" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">level_weight_lbs</text>
+      <text x="212" y="132" text-anchor="end" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="9" font-weight="600">NULL</text>
+      <text x="10" y="150" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">level_length_in</text>
+      <text x="212" y="150" text-anchor="end" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="9" font-weight="600">NULL</text>
+      <text x="10" y="168" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">level_width_in</text>
+      <text x="212" y="168" text-anchor="end" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="9" font-weight="600">NULL</text>
+      <text x="10" y="186" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">level_height_in</text>
+      <text x="212" y="186" text-anchor="end" fill="#b82d4a" font-family="'Source Sans 3', Arial, sans-serif" font-size="9" font-weight="600">NULL</text>
+    </g>
+
+    <!-- dim_gtin_assignments -->
+    <g transform="translate(40,540)">
+      <rect width="220" height="168" rx="2" fill="#ffffff" stroke="#1f2e7a" stroke-width="1.5"/>
+      <rect width="220" height="32" rx="2" fill="#1f2e7a"/>
+      <rect width="220" height="4" y="28" fill="#1f2e7a"/>
+      <text x="10" y="22" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="12" font-weight="700">dim_gtin_assignments</text>
+      <text x="10" y="46" fill="#595959" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5">GTIN per packaging level</text>
+      <line x1="0" x2="220" y1="64" y2="64" stroke="#d9d9d9" stroke-width="1"/>
+      <text x="10" y="78"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">sku  FK (composite PK)</text>
+      <text x="10" y="96"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">packaging_level  FK (PK)</text>
+      <text x="10" y="114" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">gtin</text>
+      <text x="10" y="132" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">gtin_type  (GTIN-12 | GTIN-14 | SSCC)</text>
+      <text x="10" y="150" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">indicator_digit  (brand-assigned)</text>
+    </g>
+
+    <!-- dim_retailer_attributes -->
+    <g transform="translate(308,281)">
+      <rect width="220" height="186" rx="2" fill="#ffffff" stroke="#1f2e7a" stroke-width="1.5"/>
+      <rect width="220" height="32" rx="2" fill="#1f2e7a"/>
+      <rect width="220" height="4" y="28" fill="#1f2e7a"/>
+      <text x="10" y="22" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="12" font-weight="700">dim_retailer_attributes</text>
+      <text x="10" y="46" fill="#595959" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5">Retailer-specific attribute set</text>
+      <line x1="0" x2="220" y1="64" y2="64" stroke="#d9d9d9" stroke-width="1"/>
+      <text x="10" y="78"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">sku  FK (composite PK)</text>
+      <text x="10" y="96"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">retailer  PK</text>
+      <text x="10" y="114" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">attribute_key  PK</text>
+      <text x="10" y="132" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">attribute_value</text>
+      <text x="10" y="150" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">attribute_source</text>
+      <text x="10" y="168" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">last_synced</text>
+    </g>
+
+    <!-- syndication_targets -->
+    <g transform="translate(576,308)">
+      <rect width="220" height="132" rx="2" fill="#ffffff" stroke="#1f2e7a" stroke-width="1.5"/>
+      <rect width="220" height="32" rx="2" fill="#1f2e7a"/>
+      <rect width="220" height="4" y="28" fill="#1f2e7a"/>
+      <text x="10" y="22" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="12" font-weight="700">syndication_targets</text>
+      <text x="10" y="46" fill="#595959" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5">GDSN / 1WorldSync / KeHE Connect</text>
+      <line x1="0" x2="220" y1="64" y2="64" stroke="#d9d9d9" stroke-width="1"/>
+      <text x="10" y="78"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">target_id  PK</text>
+      <text x="10" y="96"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">target_name</text>
+      <text x="10" y="114" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">protocol  (GDSN | EDI 832 | API)</text>
+    </g>
+
+    <!-- retailer_portals -->
+    <g transform="translate(308,549)">
+      <rect width="220" height="150" rx="2" fill="#ffffff" stroke="#1f2e7a" stroke-width="1.5"/>
+      <rect width="220" height="32" rx="2" fill="#1f2e7a"/>
+      <rect width="220" height="4" y="28" fill="#1f2e7a"/>
+      <text x="10" y="22" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="12" font-weight="700">retailer_portals</text>
+      <text x="10" y="46" fill="#595959" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5">Walmart / Costco / UNFI / KeHE</text>
+      <line x1="0" x2="220" y1="64" y2="64" stroke="#d9d9d9" stroke-width="1"/>
+      <text x="10" y="78"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">retailer  PK</text>
+      <text x="10" y="96"  fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">portal_name</text>
+      <text x="10" y="114" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">gtin_level_required  (each | case)</text>
+      <text x="10" y="132" fill="#333333" font-family="'Source Sans 3', Arial, sans-serif" font-size="10">requires_dimensions</text>
+    </g>
+
+  </g>
 </svg>
