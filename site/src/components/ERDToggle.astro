@@ -1,0 +1,145 @@
+---
+import ERDMermaid from './ERDMermaid.astro';
+import ERDInteractive from './ERDInteractive.astro';
+---
+
+<div class="erd-toggle-wrapper">
+  <div class="erd-toggle-controls" role="group" aria-label="ERD view selection">
+    <button
+      class="erd-toggle-btn erd-toggle-btn--active"
+      id="btn-annotated"
+      aria-pressed="true"
+      data-target="view-annotated"
+    >Annotated</button>
+    <button
+      class="erd-toggle-btn"
+      id="btn-interactive"
+      aria-pressed="false"
+      data-target="view-interactive"
+    >Interactive</button>
+    <a
+      class="erd-toggle-download"
+      href="/downloads/erd.svg"
+      download="product-master-erd.svg"
+      aria-label="Download ERD as SVG"
+    >&#8595; Download SVG</a>
+  </div>
+
+  <div id="view-annotated" class="erd-view">
+    <ERDMermaid />
+  </div>
+
+  <div id="view-interactive" class="erd-view" hidden>
+    <ERDInteractive />
+  </div>
+</div>
+
+<script>
+const buttons      = document.querySelectorAll('.erd-toggle-btn');
+let   d3Initialized = false;
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+
+    // Update button states
+    buttons.forEach(b => {
+      b.classList.remove('erd-toggle-btn--active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('erd-toggle-btn--active');
+    btn.setAttribute('aria-pressed', 'true');
+
+    // Show / hide views
+    document.querySelectorAll('.erd-view').forEach(view => {
+      (view).hidden = (view.id !== targetId);
+    });
+
+    // Lazy-init D3 on first reveal (after hidden is removed)
+    if (targetId === 'view-interactive' && !d3Initialized) {
+      d3Initialized = true;
+      requestAnimationFrame(() => {
+        if (typeof window.__initD3Erd === 'function') window.__initD3Erd();
+      });
+    }
+  });
+});
+</script>
+
+<style>
+.erd-toggle-wrapper {
+  width: 100%;
+}
+
+.erd-toggle-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.erd-toggle-btn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: var(--border-radius);
+  border: 1.5px solid var(--color-navy);
+  background: transparent;
+  color: var(--color-navy);
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+}
+
+.erd-toggle-btn:hover:not(.erd-toggle-btn--active) {
+  background: var(--color-info-bg);
+}
+
+.erd-toggle-btn--active {
+  background: var(--color-navy);
+  color: #ffffff;
+}
+
+.erd-toggle-btn--active:hover {
+  background: var(--color-navy-hover);
+}
+
+.erd-toggle-download {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-navy);
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+.erd-toggle-download:hover {
+  color: var(--color-navy-hover);
+  text-decoration: underline;
+}
+
+.erd-view[hidden] {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .erd-toggle-download {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media print {
+  .erd-toggle-controls {
+    display: none;
+  }
+  #view-interactive {
+    display: none !important;
+  }
+  #view-annotated {
+    display: block !important;
+  }
+}
+</style>

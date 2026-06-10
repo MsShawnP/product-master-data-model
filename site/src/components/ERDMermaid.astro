@@ -1,0 +1,138 @@
+---
+// ERDMermaid.astro — annotated erDiagram rendered by Mermaid v11
+---
+
+<div class="erd-mermaid-wrapper">
+  <div id="erd-mermaid-out" class="erd-mermaid-out">
+    <span class="erd-loading" id="erd-mermaid-loading">Rendering diagram…</span>
+  </div>
+  <p class="erd-caption">
+    Annotated view — key columns per entity, with the data gap that drives each
+    "what breaks" callout. CHP-0009 today: seven dimension fields are NULL.
+  </p>
+</div>
+
+<script>
+import mermaid from 'mermaid';
+
+const DEF = `erDiagram
+    dim_products {
+        string sku PK "Cinderhaven canonical anchor"
+        string product_name
+        string upc "Consumer GTIN-12"
+        string case_gtin14 "NULL in 42pct of Cinderhaven SKUs"
+        numeric case_pack_qty
+        numeric case_weight_lbs "NULL in CHP-0009 today"
+    }
+    dim_packaging_levels {
+        string sku FK "also PK - composite (sku, packaging_level)"
+        string packaging_level PK "each or inner or case or pallet"
+        int quantity_per_level
+        numeric level_weight_lbs "NULL in CHP-0009"
+        numeric level_length_in "NULL in CHP-0009"
+        numeric level_width_in "NULL in CHP-0009"
+        numeric level_height_in "NULL in CHP-0009"
+    }
+    dim_gtin_assignments {
+        string sku FK "composite PK"
+        string packaging_level FK "composite PK"
+        string gtin
+        string gtin_type "GTIN-12 or GTIN-14 or SSCC"
+        int indicator_digit "brand-assigned; no GS1 semantic"
+    }
+    dim_retailer_attributes {
+        string sku FK "composite PK"
+        string retailer PK "Walmart, Costco, UNFI, KeHE, etc."
+        string attribute_key PK
+        string attribute_value
+        string attribute_source
+        timestamp last_synced
+    }
+    syndication_targets {
+        string target_id PK
+        string target_name "GDSN or 1WorldSync or KeHE Connect"
+        string protocol "GDSN or EDI 832 or API"
+    }
+    retailer_portals {
+        string retailer PK
+        string portal_name
+        string gtin_level_required "each or case"
+        boolean requires_dimensions
+    }
+    dim_products ||--o{ dim_packaging_levels : "has packaging levels"
+    dim_packaging_levels ||--o{ dim_gtin_assignments : "assigned GTINs"
+    dim_products ||--o{ dim_retailer_attributes : "has retailer attributes"
+    dim_retailer_attributes }o--|| retailer_portals : "consumed by"
+    dim_products }o--o{ syndication_targets : "syndicated to"`;
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  themeVariables: {
+    primaryColor: '#ffffff',
+    primaryBorderColor: '#1f2e7a',
+    lineColor: '#595959',
+    mainBkg: '#ffffff',
+    nodeBorder: '#1f2e7a',
+    titleColor: '#0d0d0d',
+    edgeLabelBackground: '#f5f3ee',
+    fontFamily: "'Source Sans 3', 'Source Sans Pro', Arial, sans-serif",
+  },
+  er: {
+    diagramPadding: 20,
+    layoutDirection: 'TB',
+    useMaxWidth: true,
+  },
+});
+
+async function renderMermaid() {
+  const out     = document.getElementById('erd-mermaid-out');
+  const loading = document.getElementById('erd-mermaid-loading');
+  if (!out) return;
+  try {
+    const { svg } = await mermaid.render('mermaid-erd-graph', DEF);
+    out.innerHTML = svg;
+    const svgEl = out.querySelector('svg');
+    if (svgEl) {
+      svgEl.removeAttribute('width');
+      svgEl.removeAttribute('height');
+      svgEl.style.width  = '100%';
+      svgEl.style.height = 'auto';
+      svgEl.style.maxWidth = '100%';
+    }
+  } catch (err) {
+    if (loading) loading.textContent = 'Diagram render failed — try the Interactive view.';
+    console.error('[ERDMermaid] render error:', err);
+  }
+}
+
+// Module scripts run after DOM is parsed; no DOMContentLoaded needed.
+renderMermaid();
+</script>
+
+<style>
+.erd-mermaid-wrapper {
+  width: 100%;
+}
+
+.erd-mermaid-out {
+  min-height: 120px;
+  overflow-x: auto;
+}
+
+.erd-loading {
+  display: block;
+  padding: 40px 0;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.erd-caption {
+  margin: 12px 0 0;
+  max-width: 660px;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+</style>

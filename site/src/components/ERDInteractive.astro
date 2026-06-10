@@ -1,0 +1,564 @@
+---
+// ERDInteractive.astro — D3 + dagre ERD with click-to-pin interaction.
+// Lazy-initialized: ERDToggle calls window.__initD3Erd() on first reveal.
+---
+
+<div class="erd-interactive-wrapper" id="erd-interactive-wrapper">
+  <svg
+    id="erd-interactive-svg"
+    class="erd-svg"
+    aria-label="Interactive entity relationship diagram — click any entity to see details"
+  >
+    <defs>
+      <marker id="erd-arrow" markerWidth="8" markerHeight="6"
+              refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#595959" />
+      </marker>
+      <marker id="erd-arrow-active" markerWidth="8" markerHeight="6"
+              refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#1f2e7a" />
+      </marker>
+    </defs>
+    <g id="erd-zoom-root"></g>
+  </svg>
+
+  <div id="erd-callout" class="erd-callout" hidden>
+    <div class="callout-header">
+      <span class="callout-label" id="callout-label"></span>
+      <button class="callout-close" id="callout-close" aria-label="Dismiss entity detail">×</button>
+    </div>
+    <p class="callout-subtitle" id="callout-subtitle"></p>
+    <div class="callout-section-label">What breaks without it</div>
+    <p class="callout-what" id="callout-what"></p>
+  </div>
+
+  <p class="erd-mobile-note" aria-hidden="true">
+    Best viewed on desktop — pinch to zoom, or use the Annotated view.
+  </p>
+</div>
+
+<script>
+import { select } from 'd3-selection';
+import { zoom as d3Zoom } from 'd3-zoom';
+import { line } from 'd3-shape';
+import dagre from '@dagrejs/dagre';
+
+// ── Layout constants ─────────────────────────────────────────
+const NODE_W     = 220;
+const HEADER_H   = 32;
+const SUBTITLE_H = 20;
+const SEP_GAP    = 14;
+const COL_H      = 18;
+const BOT_PAD    = 12;
+
+function nodeHeight(cols) {
+  return HEADER_H + SUBTITLE_H + SEP_GAP + cols.length * COL_H + BOT_PAD;
+}
+
+// ── Entity definitions ────────────────────────────────────────
+const ENTITIES = [
+  {
+    id: 'dim_products',
+    label: 'dim_products',
+    subtitle: 'Anchor · Cinderhaven canonical',
+    columns: [
+      'sku  PK',
+      'product_name',
+      'upc  (GTIN-12)',
+      'case_gtin14  ★NULL',
+      'case_pack_qty',
+    ],
+    whatBreaks:
+      'No consistent sku↔GTIN anchor. Every retailer onboarding re-derives the UPC from the jar label.',
+  },
+  {
+    id: 'dim_packaging_levels',
+    label: 'dim_packaging_levels',
+    subtitle: 'each | inner | case | pallet',
+    columns: [
+      'sku  FK (composite PK)',
+      'packaging_level  PK',
+      'quantity_per_level',
+      'level_weight_lbs  ★NULL',
+      'level_length_in  ★NULL',
+      'level_width_in  ★NULL',
+      'level_height_in  ★NULL',
+    ],
+    whatBreaks:
+      'Item setup forms filled by archaeology. Dimension fields stay NULL — as in CHP-0009 today.',
+  },
+  {
+    id: 'dim_gtin_assignments',
+    label: 'dim_gtin_assignments',
+    subtitle: 'GTIN per packaging level',
+    columns: [
+      'sku  FK (composite PK)',
+      'packaging_level  FK (PK)',
+      'gtin',
+      'gtin_type  (GTIN-12 | GTIN-14 | SSCC)',
+      'indicator_digit  (brand-assigned)',
+    ],
+    whatBreaks:
+      'Brands derive GTINs by archaeology at each onboarding. No record of which level each GTIN maps to.',
+  },
+  {
+    id: 'dim_retailer_attributes',
+    label: 'dim_retailer_attributes',
+    subtitle: 'Retailer-specific attribute set',
+    columns: [
+      'sku  FK (composite PK)',
+      'retailer  PK',
+      'attribute_key  PK',
+      'attribute_value',
+      'attribute_source',
+      'last_synced',
+    ],
+    whatBreaks:
+      'Every onboarding re-derives attribute requirements from scratch. No cross-retailer comparison is possible.',
+  },
+  {
+    id: 'syndication_targets',
+    label: 'syndication_targets',
+    subtitle: 'GDSN / 1WorldSync / KeHE Connect',
+    columns: [
+      'target_id  PK',
+      'target_name',
+      'protocol  (GDSN | EDI 832 | API)',
+    ],
+    whatBreaks:
+      '1WorldSync data published to wrong packaging level. Syndication failures are silent until chargeback.',
+  },
+  {
+    id: 'retailer_portals',
+    label: 'retailer_portals',
+    subtitle: 'Walmart / Costco / UNFI / KeHE',
+    columns: [
+      'retailer  PK',
+      'portal_name',
+      'gtin_level_required  (each | case)',
+      'requires_dimensions',
+    ],
+    whatBreaks:
+      'Item setup keyed on wrong GTIN level. Costco expects case GTIN-14; Walmart expects each UPC-12.',
+  },
+];
+
+const EDGE_DEFS = [
+  { source: 'dim_products',            target: 'dim_packaging_levels',    label: 'has packaging levels' },
+  { source: 'dim_packaging_levels',    target: 'dim_gtin_assignments',    label: 'assigned GTINs' },
+  { source: 'dim_products',            target: 'dim_retailer_attributes', label: 'has retailer attributes' },
+  { source: 'dim_retailer_attributes', target: 'retailer_portals',        label: 'consumed by' },
+  { source: 'dim_products',            target: 'syndication_targets',     label: 'syndicated to' },
+];
+
+const ENTITY_MAP = Object.fromEntries(ENTITIES.map(e => [e.id, e]));
+
+// ── Dagre layout ─────────────────────────────────────────────
+function buildGraph() {
+  const g = new dagre.graphlib.Graph();
+  g.setGraph({ rankdir: 'TB', nodesep: 48, ranksep: 64, marginx: 40, marginy: 40 });
+  g.setDefaultEdgeLabel(() => ({}));
+
+  ENTITIES.forEach(e => {
+    g.setNode(e.id, {
+      label: e.id,
+      width: NODE_W,
+      height: nodeHeight(e.columns),
+    });
+  });
+
+  EDGE_DEFS.forEach(ed => {
+    g.setEdge(ed.source, ed.target, { label: ed.label });
+  });
+
+  dagre.layout(g);
+  return g;
+}
+
+// ── Main init (lazy — called by ERDToggle) ───────────────────
+let initialized = false;
+let pinnedId    = null;
+
+function init() {
+  if (initialized) return;
+  initialized = true;
+
+  const svgEl = document.getElementById('erd-interactive-svg');
+  const root  = document.getElementById('erd-zoom-root');
+  if (!svgEl || !root) return;
+
+  const g     = buildGraph();
+  const graph = g.graph();
+  const W     = graph.width  || 900;
+  const H     = graph.height || 700;
+
+  const svg     = select(svgEl);
+  const zoomRoot = select(root);
+
+  svg
+    .attr('viewBox', `0 0 ${W} ${H}`)
+    .attr('width', '100%')
+    .style('cursor', 'grab');
+
+  // Pan / zoom
+  const zoomBehavior = d3Zoom()
+    .scaleExtent([0.35, 3])
+    .on('zoom', (event) => {
+      zoomRoot.attr('transform', event.transform.toString());
+    });
+  svg.call(zoomBehavior);
+  svg.on('dblclick.zoom', null);
+
+  // Line generator for edge paths (polyline through dagre waypoints)
+  const lineGen = line().x(d => d.x).y(d => d.y);
+
+  // ── Draw edges ───────────────────────────────────────────────
+  const edgeGroup = zoomRoot.append('g').attr('class', 'erd-edges');
+
+  g.edges().forEach((edgeKey) => {
+    const edge = g.edge(edgeKey);
+    const pts  = edge.points || [];
+    if (pts.length < 2) return;
+
+    const edgeDef = EDGE_DEFS.find(
+      e => e.source === edgeKey.v && e.target === edgeKey.w
+    );
+
+    edgeGroup.append('path')
+      .attr('class', 'erd-edge')
+      .attr('data-source', edgeKey.v)
+      .attr('data-target', edgeKey.w)
+      .attr('d', lineGen(pts))
+      .attr('fill', 'none')
+      .attr('stroke', '#959595')
+      .attr('stroke-width', 1.5)
+      .attr('marker-end', 'url(#erd-arrow)');
+
+    if (edgeDef && pts.length > 0) {
+      const mid = pts[Math.floor(pts.length / 2)];
+      edgeGroup.append('text')
+        .attr('class', 'erd-edge-label')
+        .attr('data-source', edgeKey.v)
+        .attr('data-target', edgeKey.w)
+        .attr('x', mid.x)
+        .attr('y', mid.y - 5)
+        .attr('text-anchor', 'middle')
+        .attr('font-family', "'Source Sans 3', Arial, sans-serif")
+        .attr('font-size', 9.5)
+        .attr('fill', '#595959')
+        .text(edgeDef.label);
+    }
+  });
+
+  // ── Draw nodes ───────────────────────────────────────────────
+  const nodeGroup = zoomRoot.append('g').attr('class', 'erd-nodes');
+
+  ENTITIES.forEach(entity => {
+    const node = g.node(entity.id);
+    if (!node) return;
+
+    const nx = node.x - NODE_W / 2;
+    const ny = node.y - node.height / 2;
+    const nh = node.height;
+
+    const ng = nodeGroup.append('g')
+      .attr('class', 'erd-node')
+      .attr('data-id', entity.id)
+      .attr('transform', `translate(${nx},${ny})`)
+      .attr('tabindex', 0)
+      .attr('role', 'button')
+      .attr('aria-label', `${entity.id} — click for details`)
+      .style('cursor', 'pointer');
+
+    // Card background
+    ng.append('rect')
+      .attr('class', 'node-bg')
+      .attr('width', NODE_W)
+      .attr('height', nh)
+      .attr('rx', 2)
+      .attr('fill', '#ffffff')
+      .attr('stroke', '#1f2e7a')
+      .attr('stroke-width', 1.5);
+
+    // Navy header band — rounded top, square bottom
+    ng.append('rect')
+      .attr('width', NODE_W)
+      .attr('height', HEADER_H)
+      .attr('rx', 2)
+      .attr('fill', '#1f2e7a');
+    ng.append('rect')
+      .attr('width', NODE_W)
+      .attr('height', 4)
+      .attr('y', HEADER_H - 4)
+      .attr('fill', '#1f2e7a');
+
+    // Entity name
+    ng.append('text')
+      .attr('x', 10)
+      .attr('y', HEADER_H - 10)
+      .attr('fill', '#ffffff')
+      .attr('font-family', "'Playfair Display', Georgia, serif")
+      .attr('font-size', 12)
+      .attr('font-weight', 700)
+      .text(entity.label);
+
+    // Subtitle
+    ng.append('text')
+      .attr('x', 10)
+      .attr('y', HEADER_H + 14)
+      .attr('fill', '#595959')
+      .attr('font-family', "'Source Sans 3', Arial, sans-serif")
+      .attr('font-size', 9.5)
+      .text(entity.subtitle);
+
+    // Separator
+    const sepY = HEADER_H + SUBTITLE_H + SEP_GAP - 2;
+    ng.append('line')
+      .attr('x1', 0).attr('x2', NODE_W)
+      .attr('y1', sepY).attr('y2', sepY)
+      .attr('stroke', '#d9d9d9')
+      .attr('stroke-width', 1);
+
+    // Column rows
+    const colStartY = sepY + 14;
+    entity.columns.forEach((col, i) => {
+      const isNull  = col.includes('★NULL');
+      const display = col.replace('★NULL', '').trim();
+      const y       = colStartY + i * COL_H;
+
+      ng.append('text')
+        .attr('x', 10)
+        .attr('y', y)
+        .attr('fill', isNull ? '#b82d4a' : '#333333')
+        .attr('font-family', "'Source Sans 3', Arial, sans-serif")
+        .attr('font-size', 10)
+        .text(display);
+
+      if (isNull) {
+        ng.append('text')
+          .attr('x', NODE_W - 8)
+          .attr('y', y)
+          .attr('text-anchor', 'end')
+          .attr('fill', '#b82d4a')
+          .attr('font-family', "'Source Sans 3', Arial, sans-serif")
+          .attr('font-size', 9)
+          .attr('font-weight', 600)
+          .text('NULL');
+      }
+    });
+
+    // Click and keyboard handlers
+    ng.on('click', () => handlePin(entity.id));
+    ng.on('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handlePin(entity.id);
+      }
+    });
+  });
+
+  // ── Pin / dim logic ──────────────────────────────────────────
+  function handlePin(id) {
+    if (pinnedId === id) { unpin(); return; }
+    pinnedId = id;
+    showCallout(id);
+    applyDim();
+  }
+
+  function unpin() {
+    pinnedId = null;
+    hideCallout();
+    applyDim();
+  }
+
+  function connectedIds(id) {
+    const s = new Set([id]);
+    EDGE_DEFS.forEach(e => {
+      if (e.source === id) s.add(e.target);
+      if (e.target === id) s.add(e.source);
+    });
+    return s;
+  }
+
+  function applyDim() {
+    if (!pinnedId) {
+      svg.selectAll('.erd-node, .erd-edge, .erd-edge-label')
+        .style('opacity', null)
+        .style('transition', 'opacity 200ms ease-out');
+      svg.selectAll('.erd-edge')
+        .attr('stroke', '#959595')
+        .attr('stroke-width', 1.5)
+        .attr('marker-end', 'url(#erd-arrow)');
+      return;
+    }
+
+    const connected = connectedIds(pinnedId);
+
+    svg.selectAll('.erd-node').each(function() {
+      const el     = select(this);
+      const nodeId = el.attr('data-id');
+      el.style('opacity', connected.has(nodeId) ? '1' : '0.18')
+        .style('transition', 'opacity 200ms ease-out');
+    });
+
+    svg.selectAll('.erd-edge').each(function() {
+      const el     = select(this);
+      const src    = el.attr('data-source');
+      const tgt    = el.attr('data-target');
+      const active = connected.has(src) && connected.has(tgt);
+      el.style('opacity', active ? '1' : '0.12')
+        .style('transition', 'opacity 200ms ease-out')
+        .attr('stroke', active ? '#1f2e7a' : '#959595')
+        .attr('stroke-width', active ? 2 : 1.5)
+        .attr('marker-end', active ? 'url(#erd-arrow-active)' : 'url(#erd-arrow)');
+    });
+
+    svg.selectAll('.erd-edge-label').each(function() {
+      const el  = select(this);
+      const src = el.attr('data-source');
+      const tgt = el.attr('data-target');
+      el.style('opacity', (connected.has(src) && connected.has(tgt)) ? '1' : '0.12')
+        .style('transition', 'opacity 200ms ease-out');
+    });
+  }
+
+  // ── Callout card ─────────────────────────────────────────────
+  function showCallout(id) {
+    const entity = ENTITY_MAP[id];
+    if (!entity) return;
+    const callout = document.getElementById('erd-callout');
+    document.getElementById('callout-label').textContent    = entity.label;
+    document.getElementById('callout-subtitle').textContent = entity.subtitle;
+    document.getElementById('callout-what').textContent     = entity.whatBreaks;
+    callout?.removeAttribute('hidden');
+  }
+
+  function hideCallout() {
+    document.getElementById('erd-callout')?.setAttribute('hidden', '');
+  }
+
+  document.getElementById('callout-close')?.addEventListener('click', () => unpin());
+}
+
+// Exposed for ERDToggle lazy init
+window.__initD3Erd = init;
+</script>
+
+<style>
+.erd-interactive-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.erd-svg {
+  display: block;
+  width: 100%;
+  min-height: 480px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+/* Callout card — dark, absolute top-right */
+.erd-callout {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 260px;
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.callout-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.callout-label {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--card-text);
+  line-height: 1.3;
+  word-break: break-all;
+}
+
+.callout-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: -2px;
+  color: var(--card-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.callout-close:hover { color: var(--card-text); }
+
+.callout-subtitle {
+  margin: 0;
+  padding: 8px 16px 10px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--card-subtitle);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.callout-section-label {
+  padding: 10px 16px 4px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-orange);
+}
+
+.callout-what {
+  margin: 0;
+  padding: 0 16px 16px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--card-item-text);
+  line-height: 1.55;
+}
+
+/* Mobile */
+.erd-mobile-note {
+  display: none;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .erd-mobile-note {
+    display: block;
+  }
+  .erd-callout {
+    position: static;
+    width: 100%;
+    margin-top: 12px;
+    box-shadow: none;
+  }
+  .erd-svg {
+    min-height: 320px;
+  }
+}
+
+@media print {
+  .erd-callout {
+    display: none;
+  }
+}
+</style>
