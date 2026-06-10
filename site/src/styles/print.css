@@ -1,0 +1,49 @@
+@media print {
+  @page {
+    size: letter;
+    margin: 0.6in;
+
+    @bottom-left {
+      content: "Lailara LLC · Product Master Data Model";
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 9pt;
+      color: #595959;
+    }
+
+    @bottom-right {
+      content: counter(page);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 9pt;
+      color: #595959;
+    }
+  }
+
+  body {
+    background: white;
+    color: black;
+    padding: 0;
+    font-size: 11pt;
+  }
+
+  [data-interactive],
+  button:not(svg *) {
+    display: none !important;
+  }
+
+  svg [role="button"] {
+    pointer-events: none;
+  }
+
+  svg {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  section {
+    break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+}

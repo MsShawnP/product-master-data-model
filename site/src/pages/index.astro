@@ -1,0 +1,49 @@
+---
+import NarrativeLayout from '../layouts/NarrativeLayout.astro';
+---
+
+<NarrativeLayout title="Product Master Data Model — Lailara LLC">
+
+  <!-- Part 1: The Hook -->
+  <section id="hook">
+    <p class="orientation">Part 1 of 3 — The Problem</p>
+    <h1>Walmart, Costco, and UNFI are not asking about the same product.</h1>
+    <p>
+      The same jar of Calabrian Chili Marinara maps to three different GTINs,
+      at three different packaging levels, across three different item setup forms.
+      A flat product spreadsheet cannot represent this. Most specialty food brands
+      discover that gap during their first retailer rejection.
+    </p>
+    <!-- ThreeRetailerComparison component goes here (U3) -->
+  </section>
+
+  <!-- Part 2: The Proof -->
+  <section id="proof">
+    <p class="orientation">Part 2 of 3 — The Model</p>
+    <h2>Here is the model that prevents this.</h2>
+    <p>
+      One SKU — CHP-0009 — walked from brand through each, inner, case, and pallet.
+      A GTIN assigned at every level that carries one. The attribute set each
+      retailer demands, mapped to the entity that owns it.
+    </p>
+    <!-- GTINHierarchy component goes here (U5) -->
+    <!-- ERDToggle component goes here (U4) -->
+    <!-- EntityTable component goes here (U5) -->
+  </section>
+
+  <!-- Part 3: The Evidence -->
+  <section id="evidence">
+    <p class="orientation">Part 3 of 3 — The Evidence</p>
+    <h2>This isn't a whiteboard diagram — it runs.</h2>
+    <p>
+      The schema below is drawn directly from the Cinderhaven Data Platform,
+      which processes product data for 50 SKUs across 6 retailers and 3
+      distributors. The model is live in Postgres. The contracts are published
+      in dbt. The drift guard runs before every release.
+    </p>
+    <!-- MarginMath component goes here (U6) -->
+    <!-- dbt docs link goes here (U6) -->
+    <!-- Cross-links go here (U6) -->
+  </section>
+
+</NarrativeLayout>

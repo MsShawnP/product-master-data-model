@@ -1,0 +1,216 @@
+@import './fonts.css';
+
+:root {
+  /* Page chrome — Lailara Design System v2 */
+  --color-bg: #f5f3ee;          /* Canvas (London-100 warmed) */
+  --color-text: #333333;        /* London-20 */
+  --color-text-secondary: #595959; /* London-35 */
+  --color-gridline: #d9d9d9;    /* London-85 */
+  --color-border: #d9d9d9;      /* London-85 */
+  --color-ink: #0d0d0d;         /* London-5 */
+  --color-reference: #666666;   /* London-40 */
+  --color-disabled: #b3b3b3;    /* London-70 */
+
+  /* Data accents — Chicago blue */
+  --color-navy: #1f2e7a;        /* Chicago-20 */
+  --color-navy-hover: #141e52;  /* Chicago-10 */
+  --color-navy-light: #8e9ad0;  /* Chicago-70 */
+  --color-red: #cc100a;         /* Red-42 — text and 1px rules only */
+
+  /* Sequential teal palette — Hong Kong (ranked by magnitude) */
+  --teal-1: #063d32;            /* HK-5  (darkest = largest) */
+  --teal-2: #0a5c4b;            /* HK-15 */
+  --teal-3: #0e6e5a;            /* HK-25 */
+  --teal-4: #158f75;            /* HK-35 */
+  --teal-5: #1fa282;            /* HK-45 */
+  --teal-6: #35b595;            /* HK-55 */
+  --teal-7: #6dcdb5;            /* HK-70 */
+  --teal-8: #b5e4d8;            /* HK-85 (lightest = smallest) */
+
+  /* Singapore orange — warning */
+  --color-orange: #ee8a2a;      /* SG-55 */
+  --color-orange-dark: #7a3d10; /* SG-20 */
+  --color-orange-surface: #fdeee0; /* SG-95 */
+
+  /* Tokyo berry — risk / negative */
+  --color-risk: #b82d4a;        /* Tokyo-40 */
+  --color-risk-dark: #7e1f34;   /* Tokyo-20 */
+  --color-risk-surface: #fbe9ed; /* Tokyo-95 */
+
+  /* Semantic status */
+  --color-pass-bg: #e4f5f0;
+  --color-pass-text: #0e6e5a;
+  --color-warn-bg: #fdeee0;
+  --color-warn-text: #7a3d10;
+  --color-fail-bg: #fde8e7;
+  --color-fail-text: #7a0906;
+  --color-info-bg: #e5e8f5;
+  --color-info-text: #1f2e7a;
+
+  /* Dark callout card */
+  --card-bg: #1a1a1a;
+  --card-text: #ffffff;
+  --card-subtitle: #d8d8d8;
+  --card-muted: #9a9a9a;
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-item-text: #ededed;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Source Sans 3', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Layout */
+  --content-max-width: 900px;
+  --section-gap: 60px;
+  --border-radius: 2px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 48px 24px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  line-height: 1.3;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: 660px;
+}
+
+a {
+  color: var(--color-navy);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--color-navy-hover);
+}
+
+.orientation {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  border-left: 3px solid var(--color-border);
+  padding-left: 16px;
+  margin-bottom: 2em;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: -0.25em 0 1.5em;
+}
+
+.chart-footnote {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  max-width: 660px;
+  margin-top: 12px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-radius: 2px;
+  padding: 20px 24px;
+  margin: 1em 0;
+  max-width: 320px;
+}
+
+.stat-card .stat-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--card-subtitle);
+  margin: 0 0 4px;
+}
+
+.stat-card .stat-value {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stat-card .stat-note {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--card-muted);
+  margin: 6px 0 0;
+}
+
+/* Focus-visible */
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  body {
+    padding: 32px 16px;
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 44px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+}

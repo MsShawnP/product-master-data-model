@@ -21,7 +21,7 @@ For a $15M–$25M specialty food brand with product data scattered across ERP, 1
 
 Full implementation plan: `docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md`
 
-- [ ] **U1** — Scaffold Astro site in `site/` from `channel-profitability-analysis` (Astro 5.9.0 + MDX + D3 + Cloudflare Pages template)
+- [x] **U1** — Scaffold Astro site in `site/` from `channel-profitability-analysis` (Astro 5.9.0 + MDX + D3 + Cloudflare Pages template)
 - [ ] **U2** — Write Postgres DDL: core product hierarchy tables + GS1 packaging tables + constraints
 - [ ] **U3** — Build ERD components: three-view toggle (astro-mermaid / D3+@dagrejs/dagre / SVG download)
 - [ ] **U4** — Write dbt models and contracts: `dim_product_hierarchy`, `dim_packaging`, `dim_retailer_requirements` + schema tests
