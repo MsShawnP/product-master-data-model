@@ -19,12 +19,15 @@ Each entry:
 
 ## Architecture & Pipeline
 
-[First arch decision goes here. Example structure:]
+### 2026-06-10 — Use Astro 5.9.0 (not 6.x) for the narrative site
+- **Why:** `channel-profitability-analysis` runs Astro 5.9.0 + MDX + Cloudflare Pages successfully. Cloudflare adapter in static mode has a documented bug where it fails the build. Staying on 5.9.0 avoids the failure and gives a known-working template to clone from.
+- **Scope:** `site/` directory, all Astro config and dependency decisions
+- **Do not:** Upgrade to Astro 6.x without confirming the Cloudflare Pages static-mode adapter issue is resolved. Do not use the Cloudflare adapter at all — deploy as a static site.
 
-### YYYY-MM-DD — [Decision in one line]
-- **Why:** [reasoning, including alternatives considered]
-- **Scope:** [global / file / deliverable / etc.]
-- **Do not:** [anti-instruction, if applicable]
+### 2026-06-10 — Scaffold `site/` from `channel-profitability-analysis`, not from scratch
+- **Why:** That repo already has Astro 5.9.0 + MDX + selective D3 sub-modules + `@fontsource` self-hosted fonts + Cloudflare Pages config that works. Starting from scratch risks re-encountering solved problems (adapter static-mode bug, font CDN vs self-hosted, D3 tree-shaking).
+- **Scope:** U1 scaffold task; sets all baseline dependency versions
+- **Do not:** Pull from `create-astro` or any other template. Clone from `channel-profitability-analysis` directly.
 
 ---
 
@@ -36,7 +39,10 @@ Each entry:
 
 ## Visualization
 
-[Chart conventions, palette decisions, interactivity choices]
+### 2026-06-10 — ERD uses three views with a toggle: Mermaid, D3 interactive, SVG download
+- **Why:** User explicitly chose all three so visitors can pick the view that works for them — Mermaid for quick reading, D3 for interactive exploration, SVG for export/print. astro-mermaid (client-side) chosen over rehype-mermaid because rehype-mermaid requires Playwright/Chromium and has Windows rendering divergence.
+- **Scope:** `site/src/components/ERD*` components, U3 implementation unit
+- **Do not:** Use `dagre-d3` (abandoned, D3 v4, last release 2017) — use `@dagrejs/dagre` v3.0.0 + D3 v7 instead. Do not use `rehype-mermaid` (requires Playwright).
 
 ---
 

@@ -7,44 +7,43 @@ session. For session-by-session state, see HANDOFF.md.
 
 ## Goal
 
-[One sentence — what "done" looks like for this arc.]
+Ship `master.lailarallc.com` — a complete, live Lailara portfolio piece documenting the product master data model for specialty food brands, with a working Postgres schema, dbt contracts, annotated ERD (three views), and narrative web page.
 
 ## Why this arc, why now
 
-[One or two sentences. The reason matters when you come back in three
-weeks and wonder why this was the priority.]
+This is the project. There is only one arc until it ships.
 
 ## Business question this arc answers
 
-[One sentence. Direct connection to the project-level business question
-in CLAUDE.md.]
+For a $15M–$25M specialty food brand with product data scattered across ERP, 1WorldSync, co-packer specs, retailer portals, and Shopify, what is the documented data model that makes a product master governable — one source of truth for every GTIN, packaging level, and retailer attribute requirement?
 
 ## Tasks
 
-Work in vertical slices — one section/feature end-to-end before moving
-to the next. Visualizations get reviewed in their own slice, not
-deferred to a polish phase.
+Full implementation plan: `docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md`
 
-- [ ] Specific, scoped, actionable
-- [ ] Each one is a thing Claude Code could plausibly finish in one
-      session
-- [ ] If a task feels too big, break it down before adding it
-- [x] Completed items stay struck or checked, so the trail is visible
+- [ ] **U1** — Scaffold Astro site in `site/` from `channel-profitability-analysis` (Astro 5.9.0 + MDX + D3 + Cloudflare Pages template)
+- [ ] **U2** — Write Postgres DDL: core product hierarchy tables + GS1 packaging tables + constraints
+- [ ] **U3** — Build ERD components: three-view toggle (astro-mermaid / D3+@dagrejs/dagre / SVG download)
+- [ ] **U4** — Write dbt models and contracts: `dim_product_hierarchy`, `dim_packaging`, `dim_retailer_requirements` + schema tests
+- [ ] **U5** — Author narrative web page: Hook → Proof → Evidence structure with inline ERD and dbt docs link
+- [ ] **U6** — Wire Dagster asset graph: show `dim_products` → packaging hierarchy → retailer attribute fan-out
+- [ ] **U7** — Deploy to Cloudflare Pages at `master.lailarallc.com`; dbt docs to subdomain
 
 ## Out of scope for this arc
 
-- Things explicitly NOT being done in this round
-- Captures the decisions about what to defer
-- Prevents scope creep mid-session
+- Regulatory/labeling attributes (nutrient density, allergens) — deferred
+- Live Dagster pipeline execution against production data — diagram only
+- DDL published to a running database — repo-only schema artifacts
+- Retailer-specific attribute validation rules — structure only, not complete rule sets
 
 ## Definition of done for this arc
 
-- [ ] Specific, verifiable conditions
-- [ ] Not "the prose is better" — "every section's executive summary
-      has been reviewed and either approved or marked for domain
-      insertion"
-- [ ] When all of these are checked, the arc is done and a new PLAN.md
-      arc gets defined
+- [ ] `site/` builds without errors (`npm run build` exits 0)
+- [ ] ERD renders in all three modes (Mermaid, D3, SVG download)
+- [ ] dbt `schema.yml` contracts compile and tests pass
+- [ ] Narrative page passes Lailara design system check (colors, typography, layout)
+- [ ] Deployed and live at https://master.lailarallc.com
+- [ ] Hero SKU CHP-0009 traces through every layer of the model
 
 ---
 

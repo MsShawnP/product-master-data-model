@@ -31,4 +31,34 @@ quarto" or "scope, scrollytelling, decoration"]
 
 ## Entries
 
-[New entries get added here, most recent at the top]
+### 2026-06-10 — Copy-Item sent through Bash tool fails (PowerShell commands need PowerShell tool)
+
+**Attempted:** Used the Bash tool to run `Copy-Item` (PowerShell cmdlet) to copy slash-command files into `.claude/commands/`.
+
+**Why it didn't work:** The Bash tool runs `/usr/bin/bash`, not PowerShell. `Copy-Item` is not a bash command and returns "command not found."
+
+**What we tried instead:** Switched to the PowerShell tool — worked immediately.
+
+**Status:** Resolved
+
+**Tags:** powershell, bash, copy, tool-selection, windows
+
+---
+
+### 2026-06-10 — Global .gitignore excludes .claude/ — breaks slash command tracking
+
+**Attempted:** Staged `.claude/commands/` as part of the initial project commit.
+
+**Why it didn't work:** `~/.gitignore` contains `.claude/` to exclude Claude Code session artifacts from all repos. This prevented the slash commands from being committed.
+
+**What we tried instead:** Added negation rules to the project-level `.gitignore`:
+```
+!.claude/
+!.claude/commands/
+!.claude/commands/*.md
+```
+This overrides the global ignore for this specific project. Worked correctly.
+
+**Status:** Resolved
+
+**Tags:** gitignore, global-gitignore, .claude, slash-commands, windows, init
