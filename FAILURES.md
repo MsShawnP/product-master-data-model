@@ -90,3 +90,17 @@ This overrides the global ignore for this specific project. Worked correctly.
 **Status:** Resolved
 
 **Tags:** astro, gitignore, generated-files, astro-types, site-scaffold
+
+---
+
+### 2026-06-10 — preview_screenshot times out on pages with a heavy Mermaid bundle
+
+**Attempted:** Used `preview_screenshot` to verify the ERD page after starting the dev server.
+
+**Why it didn't work:** Mermaid v11 ships ~569KB of client-side JS. The page takes long enough to reach a stable paint state that the screenshot tool times out (30s) before capturing anything.
+
+**What we tried instead:** `preview_snapshot` (returns the accessibility tree — fast, works on any page state) and `preview_eval` (runs JS in the page — used to trigger D3 init and serialize the SVG). Both worked without issue.
+
+**Status:** Resolved (workaround established)
+
+**Tags:** preview, screenshot, mermaid, bundle-size, d3, browser-tools

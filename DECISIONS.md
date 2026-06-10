@@ -49,6 +49,16 @@ Each entry:
 - **Scope:** `site/src/components/ERD*` components, U3 implementation unit
 - **Do not:** Use `dagre-d3` (abandoned, D3 v4, last release 2017) — use `@dagrejs/dagre` v3.0.0 + D3 v7 instead. Do not use `rehype-mermaid` (requires Playwright).
 
+### 2026-06-10 — Call mermaid.render() directly in Astro scripts; do not rely on astro-mermaid integration scanning
+- **Why:** `astro-mermaid` with `autoTheme: false` logs "No mermaid diagrams found on initial load" — it scans for `.mermaid` class elements but our component renders into a plain `<div>` via `mermaid.render()`. The integration does nothing useful for us. Direct API call is more explicit, more reliable, and doesn't depend on the integration's internal element-scanning behavior.
+- **Scope:** `site/src/components/ERDMermaid.astro` and any future Mermaid components in `site/`
+- **Do not:** Add class `mermaid` to elements expecting the integration to auto-render them. Call `mermaid.initialize()` and `mermaid.render()` explicitly instead.
+
+### 2026-06-10 — Generate erd.svg by serializing the live D3 SVG in the browser, not by authoring it by hand
+- **Why:** D3 + dagre produce exact node positions at runtime. Authoring SVG coordinates by hand would require re-running the dagre layout mentally — error-prone and fragile. The correct workflow: render the D3 view in the browser, run `new XMLSerializer().serializeToString(svgEl)` via `preview_eval`, clean the output (add background rect, remove Astro scoping attrs, add XML declaration), and commit.
+- **Scope:** `site/public/downloads/erd.svg`; applies any time the ERD schema changes and erd.svg needs to be regenerated
+- **Do not:** Edit erd.svg coordinates by hand. Always re-serialize from the live render.
+
 ---
 
 ## Output Formats

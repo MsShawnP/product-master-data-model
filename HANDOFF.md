@@ -71,3 +71,15 @@ to build the implementation plan from the brief.
 **Next:** U5 — GTINHierarchy.astro (CHP-0009 each→inner→case→pallet walkthrough) + EntityTable.astro (6-row entity table with "what breaks" column) + Part 2 prose in index.astro.
 
 ---
+
+## 2026-06-10 20:00 — Session wrap: U4 complete
+
+**Started from:** U1–U3 done, `npm run build` passing. U4 (ERD toggle) was next.
+
+**Did:** ERDMermaid.astro (mermaid v11 erDiagram, 6 entities, 5 relationships, Lailara base theme). ERDInteractive.astro (D3 + dagre hierarchical layout, click-to-pin, dark callout card, pan/zoom). ERDToggle.astro ([Annotated | Interactive] toggle, lazy D3 init via rAF, SVG download link). Wired ERDToggle into index.astro Part 2. Confirmed D3 rendered in preview browser (6 nodes, 5 edges, viewBox 836×748), serialized live SVG, committed real erd.svg (cleaned, standalone).
+
+**State:** U1–U4 done. npm run build exits 0. Both ERD views render correctly. Toggle and lazy init work. Real erd.svg committed. 3 commits unpushed.
+
+**Next:** U5 — GTINHierarchy.astro (CHP-0009 each→inner→case→pallet, NULL dimension badge) + EntityTable.astro (6-row "what breaks" table) + Part 2 prose in index.astro. Full spec in docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md §U5.
+
+---
