@@ -1,0 +1,282 @@
+---
+// CHP-0009 seed data — hardcoded, no API
+const SKU = {
+  name:        'Calabrian Chili Marinara',
+  sku:         'CHP-0009',
+  upc:         '0074000090',       // GTIN-12, each level
+  gtin14:      '00850074000090',   // GTIN-14, case level
+  casePackQty: 24,
+  msrp:        '$12.50',
+  unitWeight:  '1.25 lbs',
+};
+
+const retailers = [
+  {
+    name:    'Walmart',
+    label:   'Item Setup (Retail Link)',
+    note:    'Item setup keys on the consumer unit. The each is the sellable item.',
+    gtin:    SKU.upc,
+    gtinLabel: 'Consumer Unit (UPC-12)',
+    gtinLevel: 'each',
+    fields: [
+      { key: 'GTIN / UPC',       value: SKU.upc,         level: 'each',    status: 'present' },
+      { key: 'Unit of Measure',  value: 'EA',             level: 'each',    status: 'present' },
+      { key: 'MSRP',             value: SKU.msrp,         level: 'product', status: 'present' },
+      { key: 'Unit Weight',      value: SKU.unitWeight,   level: 'each',    status: 'present' },
+      { key: 'Unit Length',      value: null,             level: 'each',    status: 'missing' },
+      { key: 'Unit Width',       value: null,             level: 'each',    status: 'missing' },
+      { key: 'Unit Height',      value: null,             level: 'each',    status: 'missing' },
+    ],
+  },
+  {
+    name:    'Costco',
+    label:   'Item Setup (Supplier Portal)',
+    note:    'The selling unit is the bulk case. Costco\'s GTIN is the case GTIN-14, not the each.',
+    gtin:    SKU.gtin14,
+    gtinLabel: 'Case GTIN-14',
+    gtinLevel: 'case',
+    fields: [
+      { key: 'Case GTIN-14',     value: SKU.gtin14,       level: 'case',    status: 'present' },
+      { key: 'Case Pack Qty',    value: `${SKU.casePackQty} units`, level: 'case', status: 'present' },
+      { key: 'Vendor Number',    value: '—',              level: 'product', status: 'present' },
+      { key: 'Case Weight',      value: null,             level: 'case',    status: 'missing' },
+      { key: 'Case Length',      value: null,             level: 'case',    status: 'missing' },
+      { key: 'Case Width',       value: null,             level: 'case',    status: 'missing' },
+      { key: 'Warehouse Price',  value: '—',              level: 'product', status: 'present' },
+    ],
+  },
+  {
+    name:    'UNFI',
+    label:   'EDI 832 Item Setup',
+    note:    'Distributors require the full case hierarchy. The EDI 832 transaction asks for both the case GTIN and shipped dimensions.',
+    gtin:    SKU.gtin14,
+    gtinLabel: 'Case GTIN-14 (EDI)',
+    gtinLevel: 'case',
+    fields: [
+      { key: 'Case GTIN-14',     value: SKU.gtin14,       level: 'case',    status: 'present' },
+      { key: 'Case Pack Qty',    value: `${SKU.casePackQty} units`, level: 'case', status: 'present' },
+      { key: 'Shipped Weight',   value: null,             level: 'case',    status: 'missing' },
+      { key: 'Shipped Length',   value: null,             level: 'case',    status: 'missing' },
+      { key: 'Shipped Width',    value: null,             level: 'case',    status: 'missing' },
+      { key: 'FOB Price',        value: '—',              level: 'product', status: 'present' },
+      { key: 'Inner Pack GTIN',  value: null,             level: 'inner',   status: 'unassigned' },
+    ],
+  },
+];
+---
+
+<div class="comparison-wrapper">
+  <div class="comparison-grid" role="list">
+    {retailers.map((r) => (
+      <div class="retailer-card" role="listitem" data-retailer={r.name.toLowerCase()}>
+        <div class="card-header">
+          <span class="retailer-name">{r.name}</span>
+          <span class="card-form-label">{r.label}</span>
+        </div>
+
+        <div class="gtin-badge" data-level={r.gtinLevel}>
+          <span class="gtin-level-tag">{r.gtinLabel}</span>
+          <span class="gtin-value">{r.gtin}</span>
+        </div>
+
+        <table class="field-table" aria-label={`${r.name} item setup fields for ${SKU.name}`}>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {r.fields.map((f) => (
+              <tr data-status={f.status}>
+                <td class="field-key">{f.key}</td>
+                <td class="field-value">
+                  {f.status === 'present' && f.value}
+                  {f.status === 'missing' && (
+                    <span class="badge badge--missing" aria-label="Missing — data gap">Missing</span>
+                  )}
+                  {f.status === 'unassigned' && (
+                    <span class="badge badge--unassigned" aria-label="Not assigned">Not assigned</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <p class="card-note">{r.note}</p>
+      </div>
+    ))}
+  </div>
+
+  <p class="comparison-footnote">
+    Same product. Three different GTINs. Three different levels.
+    A flat spreadsheet cannot represent this.
+  </p>
+</div>
+
+<style>
+  .comparison-wrapper {
+    width: 100%;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .retailer-card {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: var(--color-navy);
+    color: #ffffff;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .retailer-name {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .card-form-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+  }
+
+  /* GTIN badge — color-coded by packaging level */
+  .gtin-badge {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .gtin-badge[data-level="each"] {
+    background: #e5e8f5;  /* Chicago surface */
+  }
+
+  .gtin-badge[data-level="case"] {
+    background: #e4f5f0;  /* HK surface */
+  }
+
+  .gtin-level-tag {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .gtin-badge[data-level="each"] .gtin-level-tag  { color: var(--color-navy); }
+  .gtin-badge[data-level="case"] .gtin-level-tag  { color: var(--teal-3); }
+
+  .gtin-value {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Field table */
+  .field-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+
+  .field-table thead {
+    display: none;  /* visually hidden; accessible via aria-label */
+  }
+
+  .field-table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .field-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .field-table td {
+    padding: 7px 16px;
+    vertical-align: middle;
+  }
+
+  .field-key {
+    color: var(--color-text-secondary);
+    width: 55%;
+  }
+
+  .field-value {
+    color: var(--color-text);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  /* Status badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badge--missing {
+    background: var(--color-fail-bg);
+    color: var(--color-fail-text);
+  }
+
+  .badge--unassigned {
+    background: #eeeeee;
+    color: var(--color-text-secondary);
+  }
+
+  /* Card note */
+  .card-note {
+    padding: 10px 16px 12px;
+    margin: 0;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    border-top: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  /* Footnote */
+  .comparison-footnote {
+    margin-top: 16px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    max-width: none;
+  }
+
+  /* Mobile: stack cards */
+  @media (max-width: 640px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
