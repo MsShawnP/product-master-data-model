@@ -59,3 +59,15 @@ to build the implementation plan from the brief.
 **Next:** U4 — ERDToggle.astro + ERDMermaid.astro + ERDInteractive.astro (D3 + @dagrejs/dagre dagre layout). Start with the Mermaid view first, get it rendering, then layer in D3, then serialize erd.svg.
 
 ---
+
+## 2026-06-10 19:55 — U4 complete: ERD three-view toggle shipped
+
+**What changed:** ERDToggle, ERDMermaid, ERDInteractive built and committed. Real erd.svg serialized from live D3 render and committed.
+
+**Why:** U4 was the next planned unit. All three views (Mermaid annotated, D3 interactive, SVG download) are required for Part 2 of the narrative page.
+
+**State:** U1–U4 done. npm run build exits 0. D3 renders 6 entities, 5 edges (dagre TB, 836×748). Mermaid erDiagram renders all relationships. Toggle switches cleanly; D3 lazy-inits on first reveal. NULL fields show in Tokyo berry. erd.svg is the real static artifact. U5 (GTINHierarchy + EntityTable + Part 2 prose), U6, U7 remain.
+
+**Next:** U5 — GTINHierarchy.astro (CHP-0009 each→inner→case→pallet walkthrough) + EntityTable.astro (6-row entity table with "what breaks" column) + Part 2 prose in index.astro.
+
+---
