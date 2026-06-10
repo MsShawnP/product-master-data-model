@@ -24,6 +24,11 @@ Each entry:
 - **Scope:** `site/` directory, all Astro config and dependency decisions
 - **Do not:** Upgrade to Astro 6.x without confirming the Cloudflare Pages static-mode adapter issue is resolved. Do not use the Cloudflare adapter at all — deploy as a static site.
 
+### 2026-06-10 — Self-host fonts by copying woff2 files from the template, not @fontsource packages
+- **Why:** The plan specified `@fontsource` packages, but the template already has exactly the right woff2 files (Playfair Display + Source Sans 3, latin + latin-ext, variable-weight) in `public/fonts/` with matching `@font-face` declarations in `src/styles/fonts.css`. Copying the files is one step vs. adding npm packages that themselves download the same woff2 bytes. The font loading approach (preload hints + CSS `@font-face`) is already working in the template.
+- **Scope:** `site/public/fonts/`, `site/src/styles/fonts.css`
+- **Do not:** Use Google Fonts CDN. Do not switch to @fontsource packages unless the template project switches first — keeping font loading strategy in sync across portfolio pieces reduces maintenance.
+
 ### 2026-06-10 — Scaffold `site/` from `channel-profitability-analysis`, not from scratch
 - **Why:** That repo already has Astro 5.9.0 + MDX + selective D3 sub-modules + `@fontsource` self-hosted fonts + Cloudflare Pages config that works. Starting from scratch risks re-encountering solved problems (adapter static-mode bug, font CDN vs self-hosted, D3 tree-shaking).
 - **Scope:** U1 scaffold task; sets all baseline dependency versions

@@ -47,3 +47,15 @@ to build the implementation plan from the brief.
 **Next:** U1 — scaffold Astro site in site/ from channel-profitability-analysis (Astro 5.9.0, no Cloudflare adapter, @fontsource fonts, astro-mermaid + d3 + @dagrejs/dagre deps).
 
 ---
+
+## 2026-06-10 19:20 — Session wrap: U1 + U2 + U3 complete
+
+**Started from:** PLAN.md arc defined, no code written. U1 was next.
+
+**Did:** U1 — Astro 5.9.0 scaffold in site/ (astro-mermaid, D3 sub-modules, @dagrejs/dagre, self-hosted fonts, Lailara CSS variables, NarrativeLayout, index.astro skeleton). U2 — four Postgres DDL files grounded in the real Cinderhaven dim_products schema (dim_products_extended, dim_packaging_levels, dim_gtin_assignments, dim_retailer_attributes). U3 — ThreeRetailerComparison.astro (Walmart/Costco/UNFI three-column card grid, color-coded GTIN badges, red Missing badges on NULL dimensions, mobile-responsive). All pass npm run build.
+
+**State:** U1, U2, U3 done. U4 (ERD toggle), U5 (Part 2), U6 (Part 3 + dbt docs), U7 (deploy) remain. 4 commits pushed to GitHub.
+
+**Next:** U4 — ERDToggle.astro + ERDMermaid.astro + ERDInteractive.astro (D3 + @dagrejs/dagre dagre layout). Start with the Mermaid view first, get it rendering, then layer in D3, then serialize erd.svg.
+
+---
