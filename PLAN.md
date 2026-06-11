@@ -53,9 +53,9 @@ When an arc completes, archive its goal, completion date, and outcome
 here. Then start a new arc above. Provides continuity without bloating
 the active plan.
 
-### [Date completed] — [Goal]
-- Outcome: [what shipped or what was decided]
-- Tag: [git tag if one was created]
+### 2026-06-11 — Ship master.lailarallc.com
+- Outcome: Full narrative page live. Brand frame, ERD three-view toggle, GTIN hierarchy, entity table, $458K stat card, evidence links, Lailara design system applied. One deferred DoD item: dbt schema.yml tests require Cinderhaven Fly.io connection.
+- Tag: v1.0
 
 ---
 
