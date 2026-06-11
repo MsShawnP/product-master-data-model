@@ -1,0 +1,230 @@
+---
+// Each entity maps to a node in the ERD.
+// diagnosticRef links to the Cinderhaven piece that proved the gap.
+// href="#evidence" points to Part 3 of this page until pieces are published at their own subdomains.
+const entities = [
+  {
+    id: 'dim_products',
+    name: 'dim_products',
+    keyColumns: ['sku', 'product_name', 'brand', 'case_pack_qty', 'msrp'],
+    whoUsesIt: 'All retailer item setup forms; Shopify sync; ERP anchor',
+    whatBreaks: 'No canonical SKU list. Every satellite table loses its anchor. Product identity is tribal knowledge.',
+    diagnosticRef: null,
+  },
+  {
+    id: 'dim_packaging_levels',
+    name: 'dim_packaging_levels',
+    keyColumns: ['sku', 'packaging_level', 'quantity_per_level', 'level_weight_lbs', 'level_length_in', 'level_width_in', 'level_height_in'],
+    whoUsesIt: 'Retailer item setup forms; 1WorldSync syndication; warehouse receiving',
+    whatBreaks: 'Dimension fields filled by archaeology. case_weight_lbs and shipped dimensions stay NULL — as they are for CHP-0009 today. Every retailer launch rediscovers the gap.',
+    diagnosticRef: { label: 'Dimension & Weight Integrity', href: '#evidence' },
+  },
+  {
+    id: 'dim_gtin_assignments',
+    name: 'dim_gtin_assignments',
+    keyColumns: ['sku', 'packaging_level', 'gtin', 'gtin_type', 'indicator_digit'],
+    whoUsesIt: 'Walmart (each GTIN); Costco (case GTIN); UNFI EDI 832; GS1 registry; 1WorldSync',
+    whatBreaks: 'Each retailer re-derives the correct GTIN level from the wrong source. Item setup rejected. $458K/yr in chargeback exposure attributable to data-quality defects.',
+    diagnosticRef: { label: 'Product Data Health Audit', href: '#evidence' },
+  },
+  {
+    id: 'dim_retailer_attributes',
+    name: 'dim_retailer_attributes',
+    keyColumns: ['sku', 'retailer', 'attribute_key', 'attribute_value', 'attribute_source'],
+    whoUsesIt: 'Walmart Supplier Center; Costco Portal; UNFI Portal; compliance teams',
+    whatBreaks: 'Retailer-specific attribute requirements stored in tribal knowledge. Attribute drift between retailers goes undetected until a rejection.',
+    diagnosticRef: { label: 'Item Setup Pre-flight', href: '#evidence' },
+  },
+  {
+    id: 'syndication_targets',
+    name: 'syndication_targets',
+    keyColumns: ['target_name', 'protocol', 'endpoint', 'last_synced_at'],
+    whoUsesIt: '1WorldSync / GDSN pipeline; EDI 832 outbound',
+    whatBreaks: 'No record of where product data was sent. Syndication drift between the GS1 registry and retailer portals is invisible to the brand.',
+    diagnosticRef: null,
+  },
+  {
+    id: 'retailer_portals',
+    name: 'retailer_portals',
+    keyColumns: ['retailer', 'portal_name', 'gtin_level_required', 'attribute_required'],
+    whoUsesIt: 'Item setup workflow; new retailer onboarding checklist',
+    whatBreaks: 'Portal-specific GTIN-level requirements and attribute lists re-derived per launch. Each onboarding re-teaches the team what Walmart needs versus what Costco needs.',
+    diagnosticRef: { label: 'Item Setup Pre-flight', href: '#evidence' },
+  },
+];
+---
+
+<div class="entity-table-wrapper">
+  <table class="entity-table" aria-label="Product master data model entities and their consequences">
+    <thead>
+      <tr>
+        <th scope="col">Entity</th>
+        <th scope="col">Key Columns</th>
+        <th scope="col">Who Uses It</th>
+        <th scope="col">What Breaks Without It</th>
+      </tr>
+    </thead>
+    <tbody>
+      {entities.map((e) => (
+        <tr>
+          <td class="col-entity">
+            <code class="entity-name">{e.name}</code>
+          </td>
+          <td class="col-columns">
+            <span class="col-list">
+              {e.keyColumns.map((col) => (
+                <span class="col-chip">{col}</span>
+              ))}
+            </span>
+          </td>
+          <td class="col-users">{e.whoUsesIt}</td>
+          <td class="col-breaks">
+            {e.whatBreaks}
+            {e.diagnosticRef && (
+              <a href={e.diagnosticRef.href} class="diagnostic-ref">
+                {e.diagnosticRef.label} ↗
+              </a>
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .entity-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .entity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .entity-table thead th {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    text-align: left;
+    padding: 0 12px 10px 0;
+    border-bottom: 2px solid var(--color-ink);
+    white-space: nowrap;
+  }
+
+  .entity-table thead th:last-child {
+    padding-right: 0;
+  }
+
+  .entity-table tbody tr {
+    border-bottom: 1px solid var(--color-gridline);
+  }
+
+  .entity-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .entity-table tbody td {
+    padding: 12px 12px 12px 0;
+    vertical-align: top;
+  }
+
+  .entity-table tbody td:last-child {
+    padding-right: 0;
+  }
+
+  /* Entity name column */
+  .col-entity {
+    width: 18%;
+    white-space: nowrap;
+  }
+
+  .entity-name {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-navy);
+    background: var(--color-info-bg);
+    padding: 2px 6px;
+    border-radius: var(--border-radius);
+    white-space: nowrap;
+  }
+
+  /* Key columns */
+  .col-columns {
+    width: 22%;
+  }
+
+  .col-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .col-chip {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: var(--border-radius);
+    white-space: nowrap;
+  }
+
+  /* Who uses it */
+  .col-users {
+    width: 25%;
+    color: var(--color-text-secondary);
+  }
+
+  /* What breaks */
+  .col-breaks {
+    width: 35%;
+    color: var(--color-text);
+  }
+
+  .diagnostic-ref {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-navy);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+
+  .diagnostic-ref:hover {
+    color: var(--color-navy-hover);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  /* Mobile: tighten up */
+  @media (max-width: 640px) {
+    .entity-table {
+      font-size: 12px;
+    }
+
+    .col-columns {
+      display: none;
+    }
+
+    .col-entity {
+      width: 30%;
+    }
+
+    .col-users {
+      width: 30%;
+    }
+
+    .col-breaks {
+      width: 40%;
+    }
+  }
+</style>

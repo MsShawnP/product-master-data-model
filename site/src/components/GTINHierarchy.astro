@@ -1,0 +1,321 @@
+---
+// CHP-0009 seed data — hardcoded, no API
+const SKU = {
+  sku:         'CHP-0009',
+  name:        'Calabrian Chili Marinara',
+  upc:         '0074000090',
+  gtin14:      '00850074000090',
+  casePackQty: 24,
+  msrp:        '$12.50',
+};
+---
+
+<div class="hierarchy-wrapper">
+  <div class="hierarchy-label">
+    <span class="sku-chip">{SKU.sku}</span>
+    <span class="sku-desc">{SKU.name} — one SKU, four packaging levels</span>
+  </div>
+
+  <div class="hierarchy-flow" role="list">
+
+    <!-- Each -->
+    <div class="level-card" data-level="each" role="listitem">
+      <div class="card-header">
+        <span class="level-name">Each</span>
+        <span class="gtin-type-label">GTIN-12</span>
+      </div>
+      <div class="card-body">
+        <div class="gtin-value">{SKU.upc}</div>
+        <div class="level-meta">
+          <span class="meta-item">1 unit</span>
+          <span class="meta-sep">·</span>
+          <span class="meta-item">{SKU.msrp} MSRP</span>
+        </div>
+      </div>
+      <p class="card-note">Consumer unit. Walmart and most grocery retailers key item setup on this GTIN.</p>
+    </div>
+
+    <div class="flow-arrow" aria-hidden="true">→</div>
+
+    <!-- Inner Pack -->
+    <div class="level-card" data-level="inner" role="listitem">
+      <div class="card-header">
+        <span class="level-name">Inner Pack</span>
+        <span class="gtin-type-label">No GTIN</span>
+      </div>
+      <div class="card-body">
+        <span class="badge badge--unassigned">Not assigned</span>
+        <div class="level-meta">
+          <span class="meta-item">6 units</span>
+        </div>
+      </div>
+      <p class="card-note">Shelf-replenishment grouping. Not a GS1 trade item — no GTIN required at this level.</p>
+    </div>
+
+    <div class="flow-arrow" aria-hidden="true">→</div>
+
+    <!-- Case -->
+    <div class="level-card level-card--case" data-level="case" role="listitem">
+      <div class="card-header">
+        <span class="level-name">Case</span>
+        <span class="gtin-type-label">GTIN-14</span>
+      </div>
+      <div class="card-body">
+        <div class="gtin-value">{SKU.gtin14}</div>
+        <div class="level-meta">
+          <span class="meta-item">{SKU.casePackQty} units</span>
+        </div>
+        <div class="dims-row">
+          <span class="badge badge--fail">Dimensions: Missing</span>
+          <p class="dims-detail">
+            case_weight_lbs, case_length_in, case_width_in, case_height_in are NULL for CHP-0009
+            in the live platform. This is the gap the model in Part 2 closes.
+          </p>
+        </div>
+        <p class="indicator-note">
+          The leading digit of the GTIN-14 (0 in {SKU.gtin14}) is a zero-padding convention
+          this brand chose — not a GS1 semantic indicator. GS1 assigns no standardized meaning
+          to indicator digits 1–8.
+        </p>
+      </div>
+      <p class="card-note">Shipped unit. Costco's saleable unit; UNFI's EDI 832 keys on this GTIN.</p>
+    </div>
+
+    <div class="flow-arrow" aria-hidden="true">→</div>
+
+    <!-- Pallet -->
+    <div class="level-card" data-level="pallet" role="listitem">
+      <div class="card-header">
+        <span class="level-name">Pallet</span>
+        <span class="gtin-type-label">SSCC</span>
+      </div>
+      <div class="card-body">
+        <span class="badge badge--logistics">Logistics ID</span>
+        <div class="level-meta">
+          <span class="meta-item">40 cases</span>
+        </div>
+      </div>
+      <p class="card-note">An SSCC tracks the shipment, not a trade item. A pallet carries a GTIN-14 only if it is a standardized orderable unit.</p>
+    </div>
+
+  </div>
+
+  <p class="hierarchy-footnote">
+    GTIN values are illustrative examples for CHP-0009.
+    Verify against your GS1 Company Database record before publishing to any retailer portal.
+  </p>
+</div>
+
+<style>
+  .hierarchy-wrapper {
+    width: 100%;
+  }
+
+  .hierarchy-label {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .sku-chip {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    background: var(--color-info-bg);
+    color: var(--color-info-text);
+    padding: 3px 8px;
+    border-radius: var(--border-radius);
+    white-space: nowrap;
+  }
+
+  .sku-desc {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
+
+  .hierarchy-flow {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    color: var(--color-gridline);
+    font-size: 18px;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .level-card {
+    flex: 1;
+    min-width: 155px;
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-header {
+    padding: 10px 14px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: #ffffff;
+  }
+
+  .level-card[data-level="each"] .card-header   { background: var(--color-navy); }
+  .level-card[data-level="inner"] .card-header  { background: var(--color-reference); }
+  .level-card[data-level="case"] .card-header   { background: var(--teal-3); }
+  .level-card[data-level="pallet"] .card-header { background: #555555; }
+
+  .level-name {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .gtin-type-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+  }
+
+  .card-body {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .gtin-value {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-ink);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    word-break: break-all;
+  }
+
+  .level-meta {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .meta-item {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  .meta-sep {
+    color: var(--color-gridline);
+    font-size: 12px;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: var(--border-radius);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badge--fail {
+    background: var(--color-fail-bg);
+    color: var(--color-fail-text);
+  }
+
+  .badge--unassigned {
+    background: #eeeeee;
+    color: var(--color-text-secondary);
+  }
+
+  .badge--logistics {
+    background: #eeeeee;
+    color: #555555;
+  }
+
+  /* Case-specific: dimensions gap */
+  .dims-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .dims-detail {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--color-fail-text);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .indicator-note {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+    border-top: 1px solid var(--color-border);
+    padding-top: 7px;
+    margin-top: 2px;
+  }
+
+  .card-note {
+    padding: 8px 14px 10px;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .hierarchy-footnote {
+    margin-top: 10px;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    max-width: none;
+  }
+
+  /* Mobile: stack vertically */
+  @media (max-width: 640px) {
+    .hierarchy-flow {
+      flex-direction: column;
+      overflow-x: unset;
+    }
+
+    .flow-arrow {
+      justify-content: center;
+      padding: 4px 0;
+      transform: rotate(90deg);
+    }
+
+    .level-card {
+      min-width: unset;
+    }
+  }
+</style>

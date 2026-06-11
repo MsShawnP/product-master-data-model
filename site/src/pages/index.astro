@@ -2,6 +2,8 @@
 import NarrativeLayout from '../layouts/NarrativeLayout.astro';
 import ThreeRetailerComparison from '../components/ThreeRetailerComparison.astro';
 import ERDToggle from '../components/ERDToggle.astro';
+import GTINHierarchy from '../components/GTINHierarchy.astro';
+import EntityTable from '../components/EntityTable.astro';
 ---
 
 <NarrativeLayout title="Product Master Data Model — Lailara LLC">
@@ -28,9 +30,23 @@ import ERDToggle from '../components/ERDToggle.astro';
       A GTIN assigned at every level that carries one. The attribute set each
       retailer demands, mapped to the entity that owns it.
     </p>
-    <!-- GTINHierarchy component goes here (U5) -->
+
+    <GTINHierarchy />
+
+    <p>
+      The case row states the problem plainly: the shipped dimensions are NULL.
+      Costco and UNFI both require them. The model below assigns responsibility for filling them —
+      one entity per obligation, one source of truth per field.
+    </p>
+
     <ERDToggle />
-    <!-- EntityTable component goes here (U5) -->
+
+    <h3>Each entity carries an obligation</h3>
+    <p class="section-subtitle">
+      What every node in the diagram is accountable for — and what breaks without it.
+    </p>
+
+    <EntityTable />
   </section>
 
   <!-- Part 3: The Evidence -->
