@@ -26,16 +26,150 @@ const {
     <link rel="stylesheet" href="/src/styles/print.css" media="print" />
   </head>
   <body>
+    <div class="brand-stripe" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a href="https://lailarallc.com" class="brand-link" rel="noopener">
+          <span class="brand-name">Lailara LLC</span>
+          <span class="brand-sub">Data Consulting</span>
+        </a>
+        <a href="https://lailarallc.com" class="header-nav-link" rel="noopener">lailarallc.com</a>
+      </div>
+    </header>
     <main class="narrative">
       <slot />
     </main>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p class="footer-text">
+          Built by <a href="https://lailarallc.com" rel="noopener">Lailara LLC</a> — data hygiene and analytics consulting for specialty food brands scaling into national retail.
+        </p>
+      </div>
+    </footer>
     <style>
-      .narrative {
+      .brand-stripe {
+        height: 4px;
+        background: var(--color-red);
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--color-gridline);
+        padding: 0 24px;
+      }
+
+      .site-header-inner {
         max-width: var(--content-max-width);
         margin: 0 auto;
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }
+
+      .brand-link {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        text-decoration: none;
+      }
+
+      .brand-link:hover .brand-name {
+        color: var(--color-navy);
+      }
+
+      .brand-name {
+        font-family: var(--font-serif);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--color-ink);
+        line-height: 1.1;
+      }
+
+      .brand-sub {
+        font-family: var(--font-sans);
+        font-size: 10px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-text-secondary);
+        line-height: 1;
+      }
+
+      .header-nav-link {
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        letter-spacing: 0.01em;
+      }
+
+      .header-nav-link:hover {
+        color: var(--color-navy);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+      }
+
+      .narrative {
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+        padding: 48px 24px;
+        display: flex;
         flex-direction: column;
         gap: var(--section-gap);
+      }
+
+      .site-footer {
+        border-top: 1px solid var(--color-gridline);
+        padding: 0 24px;
+        margin-top: 8px;
+      }
+
+      .site-footer-inner {
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+        padding: 20px 0;
+      }
+
+      .footer-text {
+        font-family: var(--font-sans);
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        margin: 0;
+        max-width: none;
+      }
+
+      .footer-text a {
+        color: var(--color-text-secondary);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+      }
+
+      .footer-text a:hover {
+        color: var(--color-navy);
+      }
+
+      @media (max-width: 640px) {
+        .site-header {
+          padding: 0 16px;
+        }
+
+        .site-header-inner {
+          height: 48px;
+        }
+
+        .brand-name {
+          font-size: 17px;
+        }
+
+        .narrative {
+          padding: 32px 16px;
+        }
+
+        .site-footer {
+          padding: 0 16px;
+        }
       }
     </style>
   </body>
