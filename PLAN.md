@@ -26,7 +26,7 @@ Full implementation plan: `docs/plans/2026-06-10-001-feat-product-master-narrati
 - [x] **U3** — Build Part 1 — The Hook (ThreeRetailerComparison component)
 - [x] **U4** — Build annotated ERD — three-view toggle (ERDToggle, ERDMermaid, ERDInteractive D3+dagre)
 - [x] **U5** — Author narrative web page: Hook → Proof → Evidence structure with inline ERD and dbt docs link
-- [ ] **U6** — Wire Dagster asset graph: show `dim_products` → packaging hierarchy → retailer attribute fan-out
+- [x] **U6** — Wire Dagster asset graph: show `dim_products` → packaging hierarchy → retailer attribute fan-out
 - [ ] **U7** — Deploy to Cloudflare Pages at `master.lailarallc.com`; dbt docs to subdomain
 
 ## Out of scope for this arc
