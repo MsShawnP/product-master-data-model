@@ -131,3 +131,15 @@ to build the implementation plan from the brief.
 **Next:** Confirm master.lailarallc.com loads in browser. Decide next arc: dbt docs deployment, /improve pass, or new piece.
 
 ---
+
+## 2026-06-11 — Design polish needed before this is portfolio-ready
+
+**What changed:** master.lailarallc.com is live (DNS CNAME was missing — created it, SSL activated).
+
+**User feedback:** Site looks amateurish. Lailara design system not fully applied — needs a dedicated design polish pass before this can be shared as a portfolio piece.
+
+**State:** Functionally complete. Visually needs work.
+
+**Next:** Design review + polish arc. Read the live site, audit against LAILARA_DESIGN_SYSTEM.md, fix typography, spacing, color, and component fidelity. Specific areas likely to need work: heading scale, section spacing, card/badge styling, mobile layout, and the Hook section's three-column comparison.
+
+---
