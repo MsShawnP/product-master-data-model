@@ -77,6 +77,22 @@ Each entry:
 
 ---
 
+## Visual Design
+
+### 2026-06-11 — Lailara narrative pages use a brand frame: 4px red stripe + header + footer
+
+- **Why:** Without a brand frame, a deployed narrative page looks like an unstyled wireframe — no visual identity, no link back to lailarallc.com. The frame costs little and signals that the piece is a finished Lailara deliverable, not a prototype.
+- **Scope:** All Lailara narrative pages deployed to lailarallc.com subdomains. NarrativeLayout.astro is the reference implementation.
+- **Do not:** Deploy a narrative piece without the brand stripe, header (brand name + lailarallc.com link), and footer (standard Lailara LLC description). Apply this pattern when scaffolding any new Astro narrative layout.
+
+### 2026-06-11 — Section eyebrow / orientation labels use brand red left border, not grey
+
+- **Why:** `.orientation` ("Part N of N — ...") initially used `border-left: 3px solid var(--color-border)` (London-85, #d9d9d9). The design system specifies brand red (#cc100a) for "section flags, category eyebrows, brand rules." The grey read as an unstyled placeholder; the red is the correct Economist-style signal.
+- **Scope:** `.orientation` class in global.css; applies to all Lailara narrative pieces using this class.
+- **Do not:** Use London-85 grey for section eyebrow borders on Lailara deliverables. The brand rule is red.
+
+---
+
 ## Writing & Voice
 
 [Voice, style, terminology decisions specific to this project]

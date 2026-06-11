@@ -132,6 +132,18 @@ to build the implementation plan from the brief.
 
 ---
 
+## 2026-06-11 15:00 — Session wrap: design polish complete, v1.0 tagged
+
+**Started from:** master.lailarallc.com live but visually unfinished — Lailara design system not fully applied.
+
+**Did:** Read design system + all components. Added brand frame (4px red stripe, header, footer) to NarrativeLayout. Fixed .orientation border to brand red. Added London-85 section dividers between parts. Fixed off-palette badge/chip colors. Build verified, snapshot confirmed, pushed — Cloudflare Pages deploy triggered. Archived arc in PLAN.md, tagged v1.0.
+
+**State:** Clean. master.lailarallc.com live with full Lailara design system. v1.0 tagged and pushed. All 7 units complete. One deferred DoD item: dbt schema.yml tests (requires Cinderhaven Fly.io).
+
+**Next:** Start next portfolio piece — OR activate crosslink chip hrefs when sibling pieces (Dimension & Weight Integrity, PDHA, Item Setup Pre-flight) publish at their subdomains.
+
+---
+
 ## 2026-06-11 14:55 — Design polish arc complete — brand frame, orientation labels, section dividers, palette fixes
 
 **What changed:** Design polish arc complete — brand frame, orientation labels, section dividers, palette fixes
