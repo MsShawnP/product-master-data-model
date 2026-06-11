@@ -1,0 +1,77 @@
+---
+// Canonical figure: $458K/yr — verified against CINDERHAVEN_CANONICAL.md (2026-06-08).
+// Run check_canonical.py in the Cinderhaven platform repo before publishing to confirm.
+const FIGURE = '$458K/yr';
+const SKU_COUNT = 50;
+const RETAILER_COUNT = 6;
+---
+
+<div class="margin-math-wrapper">
+  <div class="stat-card margin-stat">
+    <p class="stat-label">Annual chargeback exposure at Cinderhaven scale</p>
+    <p class="stat-value">{FIGURE}</p>
+    <p class="stat-note">
+      Established by the Product Data Health Audit across {SKU_COUNT} SKUs and {RETAILER_COUNT} retailers.
+      Attributable to data-quality defects — missing GTINs, NULL dimensions, mismatched case configurations.
+    </p>
+  </div>
+
+  <div class="onboarding-math">
+    <p class="math-label">The onboarding cost</p>
+    <p class="math-body">
+      Each retailer launch delayed by an item-setup rejection adds 4–8 weeks of deferred shelf revenue.
+      At a $15M–$25M brand, that is not a rounding error — it is a cash-flow event.
+      The product master model is the document that prevents the rejection.
+    </p>
+  </div>
+</div>
+
+<style>
+  .margin-math-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Reuses .stat-card from global.css — dark callout card */
+  .margin-stat {
+    max-width: 380px;
+  }
+
+  /* Link inside dark card */
+  .margin-stat a {
+    color: var(--card-subtitle);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .margin-stat a:hover {
+    color: var(--card-text);
+  }
+
+  .onboarding-math {
+    max-width: 660px;
+    border-left: 3px solid var(--color-gridline);
+    padding-left: 16px;
+  }
+
+  .math-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin: 0 0 6px;
+  }
+
+  .math-body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 620px;
+  }
+</style>

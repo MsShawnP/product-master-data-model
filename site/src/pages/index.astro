@@ -4,6 +4,7 @@ import ThreeRetailerComparison from '../components/ThreeRetailerComparison.astro
 import ERDToggle from '../components/ERDToggle.astro';
 import GTINHierarchy from '../components/GTINHierarchy.astro';
 import EntityTable from '../components/EntityTable.astro';
+import MarginMath from '../components/MarginMath.astro';
 ---
 
 <NarrativeLayout title="Product Master Data Model — Lailara LLC">
@@ -54,14 +55,211 @@ import EntityTable from '../components/EntityTable.astro';
     <p class="orientation">Part 3 of 3 — The Evidence</p>
     <h2>This isn't a whiteboard diagram — it runs.</h2>
     <p>
-      The schema below is drawn directly from the Cinderhaven Data Platform,
-      which processes product data for 50 SKUs across 6 retailers and 3
-      distributors. The model is live in Postgres. The contracts are published
-      in dbt. The drift guard runs before every release.
+      The model is documented in four Postgres tables. The lineage runs in dbt.
+      The figures on this page are validated against live Postgres data by
+      <code>check_canonical.py</code> before every release.
     </p>
-    <!-- MarginMath component goes here (U6) -->
-    <!-- dbt docs link goes here (U6) -->
-    <!-- Cross-links go here (U6) -->
+
+    <div class="evidence-links">
+      <div class="evidence-item">
+        <span class="evidence-label">Data lineage</span>
+        <a href="https://dbt-docs.lailarallc.com" class="evidence-link" rel="noopener">
+          Browse the dbt docs →
+        </a>
+        <span class="evidence-note">dim_products and its satellite tables — column contracts, tests, lineage graph.</span>
+      </div>
+
+      <div class="evidence-item">
+        <span class="evidence-label">Proposed schema</span>
+        <span class="evidence-link evidence-link--text">sql/ in this repository</span>
+        <span class="evidence-note">Four DDL files defining the proposed extension to dim_products. Repository is currently private.</span>
+      </div>
+
+      <div class="evidence-item">
+        <span class="evidence-label">Drift guard</span>
+        <span class="evidence-link evidence-link--text"><code>check_canonical.py</code></span>
+        <span class="evidence-note">Validates all published figures against live Postgres before any release. Run in the Cinderhaven platform repo.</span>
+      </div>
+    </div>
+
+    <MarginMath />
+
+    <div class="crosslinks">
+      <p class="crosslinks-label">This piece is part of the Cinderhaven diagnostic series</p>
+      <div class="crosslinks-chips">
+        <a href="#" class="chip chip--built-on" rel="noopener">
+          Built on: Dimension &amp; Weight Integrity
+        </a>
+        <a href="#" class="chip chip--built-on" rel="noopener">
+          Built on: Product Data Health Audit
+        </a>
+        <a href="#" class="chip chip--feeds" rel="noopener">
+          Feeds: Item Setup Pre-flight
+        </a>
+      </div>
+    </div>
+
+    <p class="evidence-footnote">
+      Canonical figures as of <code>CINDERHAVEN_CANONICAL.md</code> last verified 2026-06-08.
+      50 SKUs · 6 retailers · 3 distributors + DTC · $32.8M scan revenue.
+    </p>
   </section>
 
 </NarrativeLayout>
+
+<style>
+  /* Part 3 — Evidence section */
+
+  .evidence-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin: 1.5em 0;
+    max-width: 660px;
+  }
+
+  .evidence-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+    gap: 2px 16px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background: #ffffff;
+  }
+
+  .evidence-item:last-child {
+    border-bottom: none;
+  }
+
+  .evidence-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-secondary);
+    grid-row: 1;
+    grid-column: 1;
+    padding-top: 2px;
+  }
+
+  .evidence-link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-navy);
+    grid-row: 1;
+    grid-column: 2;
+    text-decoration: none;
+  }
+
+  .evidence-link:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    color: var(--color-navy-hover);
+  }
+
+  .evidence-link--text {
+    color: var(--color-text);
+    cursor: default;
+  }
+
+  .evidence-note {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    grid-row: 2;
+    grid-column: 2;
+    line-height: 1.5;
+  }
+
+  /* Cross-link chips */
+  .crosslinks {
+    margin: 2em 0 1.5em;
+  }
+
+  .crosslinks-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-secondary);
+    margin: 0 0 10px;
+    max-width: none;
+  }
+
+  .crosslinks-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: var(--border-radius);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: opacity 150ms ease-out;
+  }
+
+  .chip:hover {
+    opacity: 0.8;
+    text-decoration: none;
+  }
+
+  .chip--built-on {
+    background: var(--color-info-bg);
+    color: var(--color-info-text);
+    border-color: var(--color-navy-light);
+  }
+
+  .chip--feeds {
+    background: var(--color-pass-bg);
+    color: var(--color-pass-text);
+    border-color: var(--teal-7);
+  }
+
+  /* Footnote */
+  .evidence-footnote {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    max-width: none;
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid var(--color-gridline);
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .evidence-item {
+      grid-template-columns: 1fr;
+    }
+
+    .evidence-label {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .evidence-link,
+    .evidence-link--text {
+      grid-row: 2;
+      grid-column: 1;
+    }
+
+    .evidence-note {
+      grid-row: 3;
+      grid-column: 1;
+    }
+  }
+</style>
