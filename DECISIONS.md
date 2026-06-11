@@ -61,6 +61,16 @@ Each entry:
 
 ---
 
+## Deployment
+
+### 2026-06-10 — Use Cloudflare REST API (not wrangler) to attach custom domains to Pages projects
+
+- **Why:** wrangler v4 removed `wrangler pages domain add`. The Cloudflare REST API endpoint `POST /accounts/{id}/pages/projects/{name}/domains` works in all wrangler versions and is the current documented path. The API also returns `zone_tag` confirming auto-wiring when the domain's DNS zone is already on the same account.
+- **Scope:** Any future `master.lailarallc.com` domain changes; applies to all portfolio pieces on Cloudflare Pages.
+- **Do not:** Use `wrangler pages domain add` — it was removed in wrangler v4. Do not look for a wrangler flag replacement; the REST API is the canonical path.
+
+---
+
 ## Output Formats
 
 [Decisions about deliverable formats, structure, organization]

@@ -104,3 +104,23 @@ This overrides the global ignore for this specific project. Worked correctly.
 **Status:** Resolved (workaround established)
 
 **Tags:** preview, screenshot, mermaid, bundle-size, d3, browser-tools
+
+---
+
+### 2026-06-10 — `wrangler pages domain add` does not exist in wrangler v4
+
+**Attempted:** Ran `npx wrangler pages domain add --project-name product-master-data-model master.lailarallc.com` to attach the custom domain to the Cloudflare Pages project.
+
+**Why it didn't work:** wrangler v4 dropped the `pages domain add` subcommand. Running it returns "Unknown arguments: project-name, projectName, domain, add" — the entire `wrangler pages domain` command family was removed. Most online docs and blog posts still reference the v3 syntax.
+
+**What we tried instead:** Called the Cloudflare REST API directly:
+```
+POST https://api.cloudflare.com/client/v4/accounts/{account_id}/pages/projects/{project_name}/domains
+Authorization: Bearer {token}
+Body: {"name": "master.lailarallc.com"}
+```
+Returned 200 with `zone_tag` populated — confirmed domain was auto-wired to the Cloudflare zone on the account.
+
+**Status:** Resolved
+
+**Tags:** wrangler, cloudflare-pages, custom-domain, wrangler-v4, deploy, rest-api

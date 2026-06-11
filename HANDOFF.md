@@ -107,3 +107,15 @@ to build the implementation plan from the brief.
 **Next:** Confirm master.lailarallc.com is live (should resolve within 5 min). Then: activate cross-link hrefs as sibling pieces publish. Run `dbt docs generate` from Cinderhaven platform repo when Fly.io is available and deploy to dbt-docs.lailarallc.com.
 
 ---
+
+## 2026-06-10 20:55 — Session wrap: U5 + U6 + U7 complete — master.lailarallc.com shipped
+
+**Started from:** U4 complete (ERD three-view toggle). U5 next.
+
+**Did:** U5 — GTINHierarchy.astro (CHP-0009 four-level flow with fail badge on case) + EntityTable.astro (6-row "what breaks" table, Economist voice) + Part 2 wired in index.astro. U6 — MarginMath.astro ($458K stat card + onboarding-math callout) + Part 3 Evidence section (dbt docs link, sql/ reference, check_canonical.py, cross-link chips, canonical footnote). U7 — Cloudflare Pages deploy via wrangler (`product-master-data-model.pages.dev`); custom domain `master.lailarallc.com` added via Cloudflare REST API (wrangler v4 dropped `pages domain add`).
+
+**State:** All 7 units complete. `npm run build` exits 0. `master.lailarallc.com` added to Pages project — DNS/SSL propagating. Two post-session items: (1) cross-link chip `href="#"` placeholders need real subdomain URLs when sibling pieces publish; (2) `dbt docs generate` + deploy to `dbt-docs.lailarallc.com` requires Cinderhaven Fly.io connection.
+
+**Next:** Confirm `master.lailarallc.com` loads in browser. Activate cross-link hrefs as sibling pieces (Dimension & Weight Integrity, PDHA, Item Setup Pre-flight) publish. Run `dbt docs generate` when Fly.io is accessible.
+
+---
