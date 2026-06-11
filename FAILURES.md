@@ -124,3 +124,17 @@ Returned 200 with `zone_tag` populated — confirmed domain was auto-wired to th
 **Status:** Resolved
 
 **Tags:** wrangler, cloudflare-pages, custom-domain, wrangler-v4, deploy, rest-api
+
+---
+
+### 2026-06-11 — Cloudflare Pages REST API accepted the custom domain but did not create the DNS CNAME
+
+**Attempted:** Used the Cloudflare REST API (`POST /accounts/{id}/pages/projects/{name}/domains`) to add `master.lailarallc.com` to the Pages project. Response returned 200 with `zone_tag` populated, which looked like success.
+
+**Why it didn't work:** Adding a domain to a Pages project via the API only registers the domain association — it does not create a DNS record in the zone. The CNAME (`master → product-master-data-model.pages.dev`) still needs to be created separately in the DNS zone via `POST /zones/{zone_id}/dns_records`. Without the CNAME, the domain stays "pending" and the site doesn't load.
+
+**What we tried instead:** Created the CNAME record manually via `POST /zones/{zone_id}/dns_records` with `type=CNAME`, `name=master`, `content=product-master-data-model.pages.dev`, `proxied=true`. SSL activated within ~10 minutes and the domain went live.
+
+**Status:** Resolved
+
+**Tags:** cloudflare-pages, cloudflare-api, custom-domain, cname, dns, pages-domain
