@@ -83,3 +83,15 @@ to build the implementation plan from the brief.
 **Next:** U5 — GTINHierarchy.astro (CHP-0009 each→inner→case→pallet, NULL dimension badge) + EntityTable.astro (6-row "what breaks" table) + Part 2 prose in index.astro. Full spec in docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md §U5.
 
 ---
+
+## 2026-06-10 20:20 — U5 complete: Part 2 fully wired
+
+**What changed:** GTINHierarchy.astro + EntityTable.astro built and wired into index.astro Part 2. Committed and pushed.
+
+**Why:** U5 was the next planned unit. Both components required to complete the "Proof" section before U6 (Evidence) and U7 (deploy) can proceed.
+
+**State:** U1–U5 done. npm run build exits 0. GTINHierarchy shows CHP-0009 across 4 levels with correct GTIN values and "Dimensions: Missing" fail badge on the case card. EntityTable has 6 rows with Economist-voice "What Breaks" prose. Part 2 section: hierarchy → prose → ERDToggle → entity table. All pushed.
+
+**Next:** U6 — MarginMath.astro ($458K callout) + Part 3 Evidence prose + dbt docs link + cross-link chips in index.astro. Full spec at docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md §U6.
+
+---
