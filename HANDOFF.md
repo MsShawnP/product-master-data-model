@@ -132,6 +132,18 @@ to build the implementation plan from the brief.
 
 ---
 
+## 2026-06-11 14:55 — Design polish arc complete — brand frame, orientation labels, section dividers, palette fixes
+
+**What changed:** Design polish arc complete — brand frame, orientation labels, section dividers, palette fixes
+
+**Why:** Site was functionally complete but visually unfinished — no Lailara brand frame, grey eyebrow borders instead of brand red, no section dividers, off-palette badge colors.
+
+**State:** master.lailarallc.com live. Full Lailara design system applied. v1.0 tagged. Arc archived in PLAN.md. One deferred DoD item (dbt schema.yml tests) requires Cinderhaven Fly.io.
+
+**Next:** Start next portfolio piece, or activate crosslink hrefs when sibling pieces publish.
+
+---
+
 ## 2026-06-11 — Design polish needed before this is portfolio-ready
 
 **What changed:** master.lailarallc.com is live (DNS CNAME was missing — created it, SSL activated).
