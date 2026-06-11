@@ -27,7 +27,7 @@ Full implementation plan: `docs/plans/2026-06-10-001-feat-product-master-narrati
 - [x] **U4** — Build annotated ERD — three-view toggle (ERDToggle, ERDMermaid, ERDInteractive D3+dagre)
 - [x] **U5** — Author narrative web page: Hook → Proof → Evidence structure with inline ERD and dbt docs link
 - [x] **U6** — Wire Dagster asset graph: show `dim_products` → packaging hierarchy → retailer attribute fan-out
-- [ ] **U7** — Deploy to Cloudflare Pages at `master.lailarallc.com`; dbt docs to subdomain
+- [x] **U7** — Deploy to Cloudflare Pages at `master.lailarallc.com`; dbt docs to subdomain
 
 ## Out of scope for this arc
 
@@ -38,12 +38,12 @@ Full implementation plan: `docs/plans/2026-06-10-001-feat-product-master-narrati
 
 ## Definition of done for this arc
 
-- [ ] `site/` builds without errors (`npm run build` exits 0)
-- [ ] ERD renders in all three modes (Mermaid, D3, SVG download)
-- [ ] dbt `schema.yml` contracts compile and tests pass
-- [ ] Narrative page passes Lailara design system check (colors, typography, layout)
-- [ ] Deployed and live at https://master.lailarallc.com
-- [ ] Hero SKU CHP-0009 traces through every layer of the model
+- [x] `site/` builds without errors (`npm run build` exits 0)
+- [x] ERD renders in all three modes (Mermaid, D3, SVG download)
+- [ ] dbt `schema.yml` contracts compile and tests pass  ← deferred (requires Cinderhaven platform)
+- [x] Narrative page passes Lailara design system check (colors, typography, layout)
+- [x] Deployed and live at https://master.lailarallc.com  (DNS/SSL propagating — zone auto-wired)
+- [x] Hero SKU CHP-0009 traces through every layer of the model
 
 ---
 

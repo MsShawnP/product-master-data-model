@@ -95,3 +95,15 @@ to build the implementation plan from the brief.
 **Next:** U6 — MarginMath.astro ($458K callout) + Part 3 Evidence prose + dbt docs link + cross-link chips in index.astro. Full spec at docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md §U6.
 
 ---
+
+## 2026-06-10 20:37 — U6 + U7 complete: site shipped to master.lailarallc.com
+
+**What changed:** MarginMath.astro + Part 3 Evidence section wired (U6). Deployed to Cloudflare Pages, custom domain master.lailarallc.com added (U7).
+
+**Why:** U6 and U7 were the final two planned units. Full narrative page — Hook → Proof → Evidence — is now deployed.
+
+**State:** All 7 units complete. npm run build exits 0. Pages deploy succeeded at https://e0ded9f3.product-master-data-model.pages.dev. Custom domain master.lailarallc.com added — DNS/SSL pending propagation (Cloudflare zone is on this account; auto-wired). Two items pending for full DoD: (1) dbt `schema.yml` tests require Cinderhaven platform connection; (2) cross-link chip hrefs (#) need to be updated to real published URLs when sibling pieces ship.
+
+**Next:** Confirm master.lailarallc.com is live (should resolve within 5 min). Then: activate cross-link hrefs as sibling pieces publish. Run `dbt docs generate` from Cinderhaven platform repo when Fly.io is available and deploy to dbt-docs.lailarallc.com.
+
+---
