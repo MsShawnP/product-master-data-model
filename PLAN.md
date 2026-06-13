@@ -66,3 +66,9 @@ Each entry records what was found, what was fixed, and when to
 check again.
 
 <!-- Entries are added by /improve — don't delete this section -->
+
+### 2026-06-13 — Audit (health check only)
+- **Findings:** 1 critical, 3 important, 1 nice-to-have
+- **Top concerns:** `sql/dim_gtin_assignments.sql` has invalid inline composite FK syntax — will fail on Postgres apply (the ALTER TABLE below is correct; the column-level REFERENCES clause is the bug). No CI pipeline. `brief_product_master_data_model.md` is a planning artifact orphaned at root. `tests/CLAUDE.md` describes test conventions that don't match this project type.
+- **Action taken:** Audit only — no fixes this session. User wrapped before executing.
+- **Next review:** 2026-07-13

@@ -132,6 +132,18 @@ to build the implementation plan from the brief.
 
 ---
 
+## 2026-06-13 — Session wrap: /improve audit run, no fixes applied
+
+**Started from:** v1.0 shipped. Running inaugural /improve health check.
+
+**Did:** Audited project — workflow files, code quality, SQL DDL, tests, deps, docs, git. Found 1 critical DDL bug in `sql/dim_gtin_assignments.sql` (invalid inline composite FK will fail on Postgres apply), 3 important issues (no CI, orphaned brief at root, tests/CLAUDE.md mismatch), 1 nice-to-have (PLAN.md empty arc section). No fixes applied — user wrapped.
+
+**State:** Clean. All issues documented in PLAN.md improvement history. No code changed this session.
+
+**Next:** Fix the DDL bug in `dim_gtin_assignments.sql` — remove the invalid inline `REFERENCES dim_packaging_levels (sku, packaging_level)` from the column definition, keep the ALTER TABLE composite FK. Then: move `brief_product_master_data_model.md` to docs/, update tests/CLAUDE.md. Optionally add GitHub Actions CI (10-line workflow, `npm run build`).
+
+---
+
 ## 2026-06-11 15:00 — Session wrap: design polish complete, v1.0 tagged
 
 **Started from:** master.lailarallc.com live but visually unfinished — Lailara design system not fully applied.
