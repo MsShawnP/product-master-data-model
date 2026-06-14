@@ -40,7 +40,7 @@ to build the implementation plan from the brief.
 
 **Started from:** New project, no repo, no scaffold. Brief only.
 
-**Did:** Created git repo + private GitHub remote. Ran /init and /new-project (full CLAUDE.md, README, src/CLAUDE.md, tests/CLAUDE.md, v0.1-foundation tag). Ran /ce:plan with 3 parallel research agents — resolved ERD tooling (all 3 views), caught $461K→$458K figure error, confirmed GS1 indicator digit constraint, identified channel-profitability-analysis as the Astro template. Wrote 7-unit plan at docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md.
+**Did:** Created git repo + private GitHub remote. Ran /init and /new-project (full CLAUDE.md, README, src/CLAUDE.md, tests/CLAUDE.md, v0.1-foundation tag). Ran /ce:plan with 3 parallel research agents — resolved ERD tooling (all 3 views), caught $461K→$93K figure error, confirmed GS1 indicator digit constraint, identified channel-profitability-analysis as the Astro template. Wrote 7-unit plan at docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md.
 
 **State:** Repo live at github.com/MsShawnP/product-master-data-model (private). CLAUDE.md filled. Plan written. PLAN.md arc placeholder empty — plan doc is the arc. No code yet.
 
@@ -92,7 +92,7 @@ to build the implementation plan from the brief.
 
 **State:** U1–U5 done. npm run build exits 0. GTINHierarchy shows CHP-0009 across 4 levels with correct GTIN values and "Dimensions: Missing" fail badge on the case card. EntityTable has 6 rows with Economist-voice "What Breaks" prose. Part 2 section: hierarchy → prose → ERDToggle → entity table. All pushed.
 
-**Next:** U6 — MarginMath.astro ($458K callout) + Part 3 Evidence prose + dbt docs link + cross-link chips in index.astro. Full spec at docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md §U6.
+**Next:** U6 — MarginMath.astro ($93K callout) + Part 3 Evidence prose + dbt docs link + cross-link chips in index.astro. Full spec at docs/plans/2026-06-10-001-feat-product-master-narrative-plan.md §U6.
 
 ---
 
@@ -112,7 +112,7 @@ to build the implementation plan from the brief.
 
 **Started from:** U4 complete (ERD three-view toggle). U5 next.
 
-**Did:** U5 — GTINHierarchy.astro (CHP-0009 four-level flow with fail badge on case) + EntityTable.astro (6-row "what breaks" table, Economist voice) + Part 2 wired in index.astro. U6 — MarginMath.astro ($458K stat card + onboarding-math callout) + Part 3 Evidence section (dbt docs link, sql/ reference, check_canonical.py, cross-link chips, canonical footnote). U7 — Cloudflare Pages deploy via wrangler (`product-master-data-model.pages.dev`); custom domain `master.lailarallc.com` added via Cloudflare REST API (wrangler v4 dropped `pages domain add`).
+**Did:** U5 — GTINHierarchy.astro (CHP-0009 four-level flow with fail badge on case) + EntityTable.astro (6-row "what breaks" table, Economist voice) + Part 2 wired in index.astro. U6 — MarginMath.astro ($93K stat card + onboarding-math callout) + Part 3 Evidence section (dbt docs link, sql/ reference, check_canonical.py, cross-link chips, canonical footnote). U7 — Cloudflare Pages deploy via wrangler (`product-master-data-model.pages.dev`); custom domain `master.lailarallc.com` added via Cloudflare REST API (wrangler v4 dropped `pages domain add`).
 
 **State:** All 7 units complete. `npm run build` exits 0. `master.lailarallc.com` added to Pages project — DNS/SSL propagating. Two post-session items: (1) cross-link chip `href="#"` placeholders need real subdomain URLs when sibling pieces publish; (2) `dbt docs generate` + deploy to `dbt-docs.lailarallc.com` requires Cinderhaven Fly.io connection.
 

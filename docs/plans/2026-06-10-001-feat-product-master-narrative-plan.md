@@ -31,7 +31,7 @@ This portfolio piece demonstrates data architecture as a deliverable: not a diag
 - Postgres DDL files: proposed schema for `dim_products` plus the four missing satellites
 - dbt docs site: generated from the existing Cinderhaven platform, deployed separately
 - Cross-links from this page to Dimension & Weight Integrity, PDHA, and Item Setup Pre-flight
-- Canonical figures from CINDERHAVEN_CANONICAL.md: use **$458K/yr** (not $461K — brief has superseded figure)
+- Canonical figures from CINDERHAVEN_CANONICAL.md: use **$93K/yr** (not $461K — brief has superseded figure)
 
 ### Out of scope
 
@@ -84,8 +84,8 @@ Generate from the Cinderhaven platform (`dbt docs generate` in the platform repo
 **9. GS1 indicator digits: no semantic mapping**
 GS1 explicitly states that indicator digits 1–8 have no standardized meaning. The ERD and narrative must not present a mapping like "indicator 1 = inner pack, indicator 2 = case" as if it were a GS1 standard. Show an example assignment (a brand chose indicator 1 for their 12-count case) while making clear it is brand-specific.
 
-**10. Canonical figure: $458K/yr (not $461K)**
-`CINDERHAVEN_CANONICAL.md` (last verified 2026-06-08) locks this at $458K. The brief's $461K is superseded. All narrative prose and the margin math section use $458K. Run `check_canonical.py` (in the Cinderhaven platform at `scripts/check_canonical.py`) before publishing any figure.
+**10. Canonical figure: $93K/yr (not $461K)**
+`CINDERHAVEN_CANONICAL.md` (last verified 2026-06-08) locks this at $93K. The brief's $461K is superseded. All narrative prose and the margin math section use $93K. Run `check_canonical.py` (in the Cinderhaven platform at `scripts/check_canonical.py`) before publishing any figure.
 
 ---
 
@@ -140,7 +140,7 @@ index.astro
 └── Part 3 — The Evidence
     ├── Live dbt docs link (lineage + column docs)
     ├── DDL download link (repo link to sql/)
-    ├── Canonical figures ($458K/yr, margin math)
+    ├── Canonical figures ($93K/yr, margin math)
     └── Cross-links to Dimension & Weight, PDHA, Pre-flight
 ```
 
@@ -455,27 +455,27 @@ product-master-data-model/
 - Live dbt docs link: `https://dbt-docs.lailarallc.com` — hyperlinked with label "Browse the lineage →"
 - DDL download: link to the `sql/` directory in the GitHub repo (public browse, not a zip download — repo is private, so link to the files page when/if repo goes public; for now, omit the external link and reference the repo path)
 - Drift-guard reference: one sentence — "The platform includes a canonical drift-guard script (`check_canonical.py`) that validates all published figures against live Postgres data before any release."
-- `MarginMath.astro`: the "$458K/yr" callout. Brief sentence: "The Product Data Health Audit established **$458K/yr** in chargeback cost attributable to data-quality defects at Cinderhaven's scale." Link to PDHA piece. Add the onboarding math: "Each retailer launch delayed by item-setup rejection ≈ 4–8 weeks of shelf revenue deferred." Reference Cost of Saying Yes piece for cash-flow framing.
+- `MarginMath.astro`: the "$93K/yr" callout. Brief sentence: "The Product Data Health Audit established **$93K/yr** in chargeback cost attributable to data-quality defects at Cinderhaven's scale." Link to PDHA piece. Add the onboarding math: "Each retailer launch delayed by item-setup rejection ≈ 4–8 weeks of shelf revenue deferred." Reference Cost of Saying Yes piece for cash-flow framing.
 - Cross-links section: three chips/tags — "Built on: Dimension & Weight Integrity", "Built on: Product Data Health Audit", "Feeds: Item Setup Form Pre-flight"
 - Footnote: canonical figures as of `CINDERHAVEN_CANONICAL.md` last verified 2026-06-08.
 
 **Canonical figure accuracy check:**
-Before writing final prose: run `check_canonical.py` in the Cinderhaven platform repo to confirm $458K, 50 SKUs, 6 retailers, 3 distributors, $32.8M scan revenue. Use only approved phrasings.
+Before writing final prose: run `check_canonical.py` in the Cinderhaven platform repo to confirm $93K, 50 SKUs, 6 retailers, 3 distributors, $32.8M scan revenue. Use only approved phrasings.
 
 **Patterns to follow:**
 - `check_canonical.py --emit` for current approved figures
-- Lailara Design System dark callout card for the "$458K/yr" stat
+- Lailara Design System dark callout card for the "$93K/yr" stat
 - Cross-link chip style from lailara-website or dimension-weight-integrity footer
 
 **Test scenarios:**
 - dbt docs site loads at its Cloudflare Pages URL before the narrative links to it
 - dbt docs lineage graph shows `dim_products`
-- MarginMath component shows $458K (not $461K)
+- MarginMath component shows $93K (not $461K)
 - Cross-link chips link to real published pages (not 404s)
 - "canonical figures as of" footnote is present
 - `check_canonical.py` passes before publish
 
-**Verification:** dbt docs deployed and accessible; $458K figure in narrative; cross-links not 404; `check_canonical.py` passes.
+**Verification:** dbt docs deployed and accessible; $93K figure in narrative; cross-links not 404; `check_canonical.py` passes.
 
 ---
 

@@ -40,7 +40,7 @@ A reader walks one Cinderhaven SKU from brand → product → item (each) → in
 
 #### The Margin Math
 
-Reference, don't re-derive: PDHA established **$461K/yr** in chargeback cost from product-master defects at Cinderhaven's scale; Dimension & Weight established the per-field mechanics. This piece's claim: those costs are symptoms of a missing model, and the model costs a fraction of one year's leakage to establish. Add onboarding math: each retailer launch delayed by item-setup rejection ≈ 4–8 weeks of shelf revenue deferred (tie to Cost of Saying Yes cash-flow framing).
+Reference, don't re-derive: PDHA established **$93K/yr** in chargeback cost from product-master defects at Cinderhaven's scale; Dimension & Weight established the per-field mechanics. This piece's claim: those costs are symptoms of a missing model, and the model costs a fraction of one year's leakage to establish. Add onboarding math: each retailer launch delayed by item-setup rejection ≈ 4–8 weeks of shelf revenue deferred (tie to Cost of Saying Yes cash-flow framing).
 
 #### Before / After
 

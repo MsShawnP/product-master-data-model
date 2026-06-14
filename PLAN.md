@@ -54,7 +54,7 @@ here. Then start a new arc above. Provides continuity without bloating
 the active plan.
 
 ### 2026-06-11 — Ship master.lailarallc.com
-- Outcome: Full narrative page live. Brand frame, ERD three-view toggle, GTIN hierarchy, entity table, $458K stat card, evidence links, Lailara design system applied. One deferred DoD item: dbt schema.yml tests require Cinderhaven Fly.io connection.
+- Outcome: Full narrative page live. Brand frame, ERD three-view toggle, GTIN hierarchy, entity table, $93K stat card, evidence links, Lailara design system applied. One deferred DoD item: dbt schema.yml tests require Cinderhaven Fly.io connection.
 - Tag: v1.0
 
 ---
