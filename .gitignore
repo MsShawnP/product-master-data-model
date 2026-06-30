@@ -39,3 +39,10 @@ Thumbs.db
 
 # Nested tool state under site/ — not slash commands, don't track
 site/.claude/
+
+# Security - secret leak prevention
+.env.*
+*.pem
+*.key
+credentials.*
+secrets.*
