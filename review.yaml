@@ -1,0 +1,48 @@
+project: product-master-data-model
+base_url: https://master.lailarallc.com
+
+routes:
+  - path: /
+    name: Product Master Data Model
+
+forbidden_content:
+  - pattern: "TODO|FIXME|HACK|XXX"
+    severity: warning
+    reason: Dev markers in production code
+  - pattern: "password\\s*=|api_key\\s*=|secret\\s*="
+    severity: fail
+    reason: Possible hardcoded credentials
+    exclude:
+      - "*.md"
+
+dom_checks:
+  - route: /
+    elements:
+      - selector: ".brand-stripe"
+        label: Brand red stripe present
+      - selector: ".site-header"
+        label: Site header present
+      - selector: ".brand-name"
+        label: Lailara LLC brand name present
+      - selector: ".site-footer"
+        label: Footer present
+      - selector: "h1"
+        label: Hero heading present
+      - selector: ".orientation"
+        label: Section orientation labels present
+      - selector: ".comparison-grid"
+        label: Three-retailer comparison grid present
+      - selector: ".hierarchy-flow"
+        label: GTIN hierarchy flow present
+      - selector: ".entity-table"
+        label: Entity table present
+      - selector: ".stat-card"
+        label: Margin math stat card present
+    absent:
+      - selector: ".error-state"
+        label: No error state shown
+
+layout:
+  - route: /
+    assertions:
+      - type: no_horizontal_scroll
