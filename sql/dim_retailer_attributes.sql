@@ -45,7 +45,7 @@ CREATE TABLE dim_retailer_attributes (
 --
 -- Walmart keys item setup on the EACH (consumer unit GTIN-12):
 --
---   (CHP-0009, Walmart, walmart_gtin,            '0074000090',     dim_gtin_assignments, ...)
+--   (CHP-0009, Walmart, walmart_gtin,            '614140000907',   dim_gtin_assignments, ...)
 --   (CHP-0009, Walmart, walmart_unit_of_measure,  'EA',            dim_packaging_levels, ...)
 --   (CHP-0009, Walmart, walmart_unit_msrp,        '12.50',         dim_products,         ...)
 --   (CHP-0009, Walmart, walmart_unit_weight_lbs,  '1.25',          dim_packaging_levels, ...)
@@ -55,7 +55,7 @@ CREATE TABLE dim_retailer_attributes (
 --
 -- Costco's selling unit is the bulk case (GTIN-14 as consumer unit):
 --
---   (CHP-0009, Costco, costco_gtin,               '00850074000090', dim_gtin_assignments, ...)
+--   (CHP-0009, Costco, costco_gtin,               '10614140000904', dim_gtin_assignments, ...)
 --   (CHP-0009, Costco, costco_case_pack,           '24',            dim_packaging_levels, ...)
 --   (CHP-0009, Costco, costco_case_weight_lbs,     NULL,  -- MISSING dim_packaging_levels, ...)
 --   (CHP-0009, Costco, costco_case_cube_in3,       NULL,  -- MISSING dim_packaging_levels, ...)
@@ -63,7 +63,7 @@ CREATE TABLE dim_retailer_attributes (
 --
 -- UNFI requires the case hierarchy for EDI 832 item setup:
 --
---   (CHP-0009, UNFI, unfi_case_gtin,              '00850074000090', dim_gtin_assignments, ...)
+--   (CHP-0009, UNFI, unfi_case_gtin,              '10614140000904', dim_gtin_assignments, ...)
 --   (CHP-0009, UNFI, unfi_case_pack_qty,           '24',            dim_packaging_levels, ...)
 --   (CHP-0009, UNFI, unfi_shipped_weight_lbs,      NULL,  -- MISSING dim_packaging_levels, ...)
 --   (CHP-0009, UNFI, unfi_shipped_length_in,       NULL,  -- MISSING dim_packaging_levels, ...)

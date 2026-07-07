@@ -5,6 +5,12 @@ import ERDToggle from '../components/ERDToggle.astro';
 import GTINHierarchy from '../components/GTINHierarchy.astro';
 import EntityTable from '../components/EntityTable.astro';
 import MarginMath from '../components/MarginMath.astro';
+
+// Crosslink chips ("Built on: Dimension & Weight Integrity", "Built on:
+// Product Data Health Audit", "Feeds: Item Setup Pre-flight") were removed
+// 2026-07-06: the sibling pieces are not yet published, so the chips had dead
+// href="#" targets. Restore the .crosslinks block (styles still below) with
+// real URLs when those pieces ship — see HANDOFF.md.
 ---
 
 <NarrativeLayout title="Product Master Data Model — Lailara LLC">
@@ -53,20 +59,20 @@ import MarginMath from '../components/MarginMath.astro';
   <!-- Part 3: The Evidence -->
   <section id="evidence">
     <p class="orientation">Part 3 of 3 — The Evidence</p>
-    <h2>This isn't a whiteboard diagram — it runs.</h2>
+    <h2>This isn't a whiteboard diagram — it's written as working DDL.</h2>
     <p>
-      The model is documented in four Postgres tables. The lineage runs in dbt.
-      The figures on this page are validated against live Postgres data by
-      <code>check_canonical.py</code> before every release.
+      The model is documented in four Postgres tables that apply with
+      <code>psql</code>. dbt model contracts and schema tests are specified and
+      deferred until the Cinderhaven platform's Postgres instance is available.
+      Published figures are checked by <code>check_canonical.py</code>, the
+      drift guard in the (private) Cinderhaven platform repo.
     </p>
 
     <div class="evidence-links">
       <div class="evidence-item">
         <span class="evidence-label">Data lineage</span>
-        <a href="https://dbt-docs.lailarallc.com" class="evidence-link" rel="noopener">
-          Browse the dbt docs →
-        </a>
-        <span class="evidence-note">dim_products and its satellite tables — column contracts, tests, lineage graph.</span>
+        <span class="evidence-link evidence-link--text">dbt contracts — deployment in progress</span>
+        <span class="evidence-note">dim_products and its satellite tables — column contracts, tests, lineage graph. Docs site publishes when the platform Postgres is live.</span>
       </div>
 
       <div class="evidence-item">
@@ -78,26 +84,12 @@ import MarginMath from '../components/MarginMath.astro';
       <div class="evidence-item">
         <span class="evidence-label">Drift guard</span>
         <span class="evidence-link evidence-link--text"><code>check_canonical.py</code></span>
-        <span class="evidence-note">Validates all published figures against live Postgres before any release. Run in the Cinderhaven platform repo.</span>
+        <span class="evidence-note">Validates published figures against the Cinderhaven canonical dataset. Runs in the platform repo (private).</span>
       </div>
     </div>
 
     <MarginMath />
 
-    <div class="crosslinks">
-      <p class="crosslinks-label">This piece is part of the Cinderhaven diagnostic series</p>
-      <div class="crosslinks-chips">
-        <a href="#" class="chip chip--built-on" rel="noopener">
-          Built on: Dimension &amp; Weight Integrity
-        </a>
-        <a href="#" class="chip chip--built-on" rel="noopener">
-          Built on: Product Data Health Audit
-        </a>
-        <a href="#" class="chip chip--feeds" rel="noopener">
-          Feeds: Item Setup Pre-flight
-        </a>
-      </div>
-    </div>
 
     <p class="evidence-footnote">
       Canonical figures as of <code>CINDERHAVEN_CANONICAL.md</code> last verified 2026-06-08.
@@ -269,4 +261,4 @@ import MarginMath from '../components/MarginMath.astro';
       grid-column: 1;
     }
   }
-</style>
+</s

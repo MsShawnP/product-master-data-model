@@ -3,8 +3,8 @@
 const SKU = {
   sku:         'CHP-0009',
   name:        'Calabrian Chili Marinara',
-  upc:         '0074000090',
-  gtin14:      '00850074000090',
+  upc:         '614140000907',
+  gtin14:      '10614140000904',
   casePackQty: 24,
   msrp:        '$12.50',
 };
@@ -49,7 +49,7 @@ const SKU = {
           <span class="meta-item">6 units</span>
         </div>
       </div>
-      <p class="card-note">Shelf-replenishment grouping. Not a GS1 trade item — no GTIN required at this level.</p>
+      <p class="card-note">Shelf-replenishment grouping. Cinderhaven has not assigned a GTIN at this level — a gap in the current product data, not a GS1 rule.</p>
     </div>
 
     <div class="flow-arrow" aria-hidden="true">→</div>
@@ -73,9 +73,9 @@ const SKU = {
           </p>
         </div>
         <p class="indicator-note">
-          The leading digit of the GTIN-14 (0 in {SKU.gtin14}) is a zero-padding convention
-          this brand chose — not a GS1 semantic indicator. GS1 assigns no standardized meaning
-          to indicator digits 1–8.
+          The leading digit of the GTIN-14 (1 in {SKU.gtin14}) is a brand-assigned indicator
+          digit; the rest embeds the UPC's company prefix and item reference with a recomputed
+          check digit. GS1 assigns no standardized meaning to indicator digits 1–8.
         </p>
       </div>
       <p class="card-note">Shipped unit. Costco's saleable unit; UNFI's EDI 832 keys on this GTIN.</p>
@@ -92,7 +92,7 @@ const SKU = {
       <div class="card-body">
         <span class="badge badge--logistics">Logistics ID</span>
         <div class="level-meta">
-          <span class="meta-item">40 cases</span>
+          <span class="meta-item">48 cases</span>
         </div>
       </div>
       <p class="card-note">An SSCC tracks the shipment, not a trade item. A pallet carries a GTIN-14 only if it is a standardized orderable unit.</p>
@@ -311,11 +311,4 @@ const SKU = {
     .flow-arrow {
       justify-content: center;
       padding: 4px 0;
-      transform: rotate(90deg);
-    }
-
-    .level-card {
-      min-width: unset;
-    }
-  }
-</style>
+  

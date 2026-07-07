@@ -36,7 +36,7 @@ CREATE TABLE dim_products (
   last_updated           TIMESTAMPTZ,
 
   -- Barcodes (case level)
-  -- CHP-0009: gtin14='00850074000090', upc='0074000090'
+  -- CHP-0009: gtin14='10614140000904', upc='614140000907'
   -- Note: these are case-level identifiers only. Per-packaging-level GTINs
   -- (each, inner, pallet/SSCC) live in dim_gtin_assignments.
   gtin14                 TEXT,        -- GTIN-14, 14 digits including indicator digit
@@ -102,12 +102,12 @@ CREATE TABLE dim_products (
 -- CHP-0009 today:
 --   sku             = 'CHP-0009'
 --   product_name    = 'Calabrian Chili Marinara'
---   gtin14          = '00850074000090'
---   upc             = '0074000090'
+--   gtin14          = '10614140000904'
+--   upc             = '614140000907'
 --   case_pack_qty   = 24
 --   msrp            = 12.50
 --   case_weight_lbs = NULL   ← the problem this model solves
 --   case_length_in  = NULL   ←
 --   case_width_in   = NULL   ←
 --   case_height_in  = NULL   ←
--- =============================================================================
+-- ==========================================================================

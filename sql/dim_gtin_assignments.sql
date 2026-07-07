@@ -15,11 +15,9 @@
 CREATE TABLE dim_gtin_assignments (
   sku                TEXT         NOT NULL
                        REFERENCES dim_products (sku),
-  packaging_level    TEXT         NOT NULL
-                       REFERENCES dim_packaging_levels (sku, packaging_level)
-                       -- FK references composite PK: (sku, packaging_level)
-                       -- Postgres syntax for composite FK below
-                       DEFERRABLE INITIALLY DEFERRED,
+  packaging_level    TEXT         NOT NULL,
+                       -- FK to dim_packaging_levels (sku, packaging_level) is a
+                       -- composite reference — added via ALTER TABLE below.
   gtin               TEXT         NOT NULL,
   gtin_type          TEXT         NOT NULL
                        CHECK (gtin_type IN ('GTIN-12', 'GTIN-13', 'GTIN-14', 'SSCC')),
@@ -47,13 +45,14 @@ ALTER TABLE dim_gtin_assignments
 -- Expected rows for CHP-0009:
 --
 -- sku      | packaging_level | gtin             | gtin_type | indicator_digit | is_trade_item
--- CHP-0009 | each            | 0074000090       | GTIN-12   | NULL            | TRUE
--- CHP-0009 | case            | 00850074000090   | GTIN-14   | 0               | TRUE
+-- CHP-0009 | each            | 614140000907     | GTIN-12   | NULL            | TRUE
+-- CHP-0009 | case            | 10614140000904   | GTIN-14   | 1               | TRUE
 -- CHP-0009 | pallet          | [SSCC value]     | SSCC      | NULL            | FALSE
 --
 -- No row for 'inner' — Cinderhaven does not assign a GTIN to the inner pack
 -- for CHP-0009. That is a gap in the current product data, not a GS1 rule.
 --
--- The indicator digit '0' in '00850074000090' means the brand has zero-padded
--- the GTIN-12 company prefix to 14 digits. This is a brand-specific convention,
--- not a GS1 semantic assignment.
+-- The indicator digit '1' in '10614140000904' is brand-assigned. The remaining
+-- digits embed the GTIN-12's company prefix and item reference (061414000090,
+-- zero-padded) with a recomputed mod-10 check digit. GS1 assigns no semantic
+-- meaning to the indicator value.
