@@ -31,19 +31,19 @@
 
     <!-- ── Edges ── -->
     <g class="erd-edges">
-      <path d="M308,171.612L150,240L150,272" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <path d="M308,171.612L150,240L150,272" fill="none" stroke="#b3b3b3" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
       <text x="150" y="235" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">has packaging levels</text>
 
-      <path d="M150,476L150,508L150,540" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <path d="M150,476L150,508L150,540" fill="none" stroke="#b3b3b3" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
       <text x="150" y="503" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">assigned GTINs</text>
 
-      <path d="M418,208L418,240L418,281" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <path d="M418,208L418,240L418,281" fill="none" stroke="#b3b3b3" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
       <text x="418" y="235" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">has retailer attributes</text>
 
-      <path d="M418,467L418,508L418,549" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <path d="M418,467L418,508L418,549" fill="none" stroke="#b3b3b3" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
       <text x="418" y="503" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">consumed by</text>
 
-      <path d="M528,171.612L686,240L686,308" fill="none" stroke="#959595" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
+      <path d="M528,171.612L686,240L686,308" fill="none" stroke="#b3b3b3" stroke-width="1.5" marker-end="url(#erd-arrow)"/>
       <text x="686" y="235" text-anchor="middle" font-family="'Source Sans 3', Arial, sans-serif" font-size="9.5" fill="#595959">syndicated to</text>
     </g>
 

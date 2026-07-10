@@ -230,7 +230,7 @@ function init() {
       .attr('data-target', edgeKey.w)
       .attr('d', lineGen(pts))
       .attr('fill', 'none')
-      .attr('stroke', '#959595')
+      .attr('stroke', '#b3b3b3')
       .attr('stroke-width', 1.5)
       .attr('marker-end', 'url(#erd-arrow)');
 
@@ -386,7 +386,7 @@ function init() {
         .style('opacity', null)
         .style('transition', 'opacity 200ms ease-out');
       svg.selectAll('.erd-edge')
-        .attr('stroke', '#959595')
+        .attr('stroke', '#b3b3b3')
         .attr('stroke-width', 1.5)
         .attr('marker-end', 'url(#erd-arrow)');
       return;
@@ -408,7 +408,7 @@ function init() {
       const active = connected.has(src) && connected.has(tgt);
       el.style('opacity', active ? '1' : '0.12')
         .style('transition', 'opacity 200ms ease-out')
-        .attr('stroke', active ? '#1f2e7a' : '#959595')
+        .attr('stroke', active ? '#1f2e7a' : '#b3b3b3')
         .attr('stroke-width', active ? 2 : 1.5)
         .attr('marker-end', active ? 'url(#erd-arrow-active)' : 'url(#erd-arrow)');
     });
