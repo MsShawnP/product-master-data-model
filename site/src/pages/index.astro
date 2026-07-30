@@ -66,7 +66,7 @@ import MarginMath from '../components/MarginMath.astro';
       <code>psql</code>. dbt model contracts and schema tests are specified and
       deferred until the Cinderhaven platform's Postgres instance is available.
       Published figures are checked by <code>check_canonical.py</code>, the
-      drift guard in the (private) Cinderhaven platform repo.
+      drift guard in the Cinderhaven platform repo.
     </p>
 
     <div class="evidence-links">
@@ -79,13 +79,13 @@ import MarginMath from '../components/MarginMath.astro';
       <div class="evidence-item">
         <span class="evidence-label">Proposed schema</span>
         <span class="evidence-link evidence-link--text">sql/ in this repository</span>
-        <span class="evidence-note">Four DDL files defining the proposed extension to dim_products. Repository is currently private.</span>
+        <span class="evidence-note">Four DDL files defining the proposed extension to dim_products.</span>
       </div>
 
       <div class="evidence-item">
         <span class="evidence-label">Drift guard</span>
         <span class="evidence-link evidence-link--text"><code>check_canonical.py</code></span>
-        <span class="evidence-note">Validates published figures against the Cinderhaven canonical dataset. Runs in the platform repo (private).</span>
+        <span class="evidence-note">Validates published figures against the Cinderhaven canonical dataset. Runs in the platform repo.</span>
       </div>
     </div>
 
@@ -93,8 +93,9 @@ import MarginMath from '../components/MarginMath.astro';
 
 
     <p class="evidence-footnote">
-      Canonical figures as of <code>CINDERHAVEN_CANONICAL.md</code> last verified 2026-06-08.
-      50 SKUs · 6 retailers · 3 distributors + DTC · $32.8M scan revenue.
+      Canonical figures as of <code>CINDERHAVEN_CANONICAL.md</code> last verified 2026-07-29
+      against production. 50 SKUs · 6 retailers · 3 distributors + DTC · $32.3M retail scan
+      revenue (CY2025).
       Data: Cinderhaven Provisions, a synthetic demonstration dataset (not a client).
     </p>
   </section>
