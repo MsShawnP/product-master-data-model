@@ -20,13 +20,15 @@ Most product-data pain — chargebacks, item-setup rejections, syndication error
 
 ## Cinderhaven context
 
-Built on the Cinderhaven synthetic dataset — a ~$25M specialty food brand, 50 SKUs across 5 product lines and 6 contracted retailers. Data is synthetic; methodology and deliverables are real.
+Built on the Cinderhaven synthetic dataset — a specialty food brand doing $33.4M TTM revenue (retail scan, through 2025-12-27), 50 SKUs across 5 product lines and 6 contracted retailers. Data is synthetic; methodology and deliverables are real.
 
 ## Data contract
 
 **Canonical baseline:** 50 SKUs · 5 product lines (AS·PS·SC·DG·SB) · 6 retailers (Walmart·Costco·Whole Foods·Sprouts·Kroger·Regional Group) · 10 channels (6 retail + UNFI·KeHE·DPI + DTC)
 
 Reuses the locked `dim_products` contract from the Cinderhaven Data Platform verbatim. Hero SKU: CHP-0009.
+
+**Known model gaps:** the locked `dim_products` contract carries no `wholesale_kroger` / `trade_spend_pct_kroger` columns — Kroger trade terms are proxied from Regional Group downstream (e.g. the PDHA P&L) — and `dim_retailer_attributes` does not enumerate DPI. Both are flagged for a platform schema decision; this repo documents the contract as locked rather than extending it.
 
 ## Quick start
 

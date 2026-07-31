@@ -46,8 +46,8 @@ CREATE TABLE dim_packaging_levels (
 --
 -- sku      | packaging_level | quantity_per_level | level_weight_lbs | ...
 -- CHP-0009 | each            | 1                  | 1.25             | ...  (one 10oz jar)
--- CHP-0009 | inner           | 6                  | NULL             | ...  (6-pack tray, if used)
--- CHP-0009 | case            | 24                 | NULL  ← gap      | ...  (24-unit master case)
+-- CHP-0009 | inner           | 6                  | NULL             | ...  (6-pack tray)
+-- CHP-0009 | case            | 4                  | NULL  ← gap      | ...  (4 six-pack inners = 24-unit master case)
 -- CHP-0009 | pallet          | 48                 | NULL             | ...  (48 cases per pallet)
 --
 -- Note: inner pack is optional. If the brand ships each directly to case,

@@ -35,10 +35,11 @@ CREATE TABLE dim_products (
   country_of_origin      TEXT,
   last_updated           TIMESTAMPTZ,
 
-  -- Barcodes (case level)
-  -- CHP-0009: gtin14='10614140000904', upc='614140000907'
-  -- Note: these are case-level identifiers only. Per-packaging-level GTINs
-  -- (each, inner, pallet/SSCC) live in dim_gtin_assignments.
+  -- Barcodes
+  -- CHP-0009: gtin14='10614140000904' (case-level GTIN-14),
+  --           upc='614140000907' (each-level GTIN-12).
+  -- Note: this flat pair carries no level annotation. The full per-packaging-level
+  -- GTIN hierarchy (each, inner, case, pallet/SSCC) lives in dim_gtin_assignments.
   gtin14                 TEXT,        -- GTIN-14, 14 digits including indicator digit
   upc                    TEXT,        -- UPC-A (GTIN-12) or EAN-13
 
@@ -94,7 +95,7 @@ CREATE TABLE dim_products (
 -- What is NOT in this table (by design):
 --
 -- MISSING: Inner pack quantity and GTIN   → see dim_packaging_levels
--- MISSING: Each-level GTIN (GTIN-12/13)  → see dim_gtin_assignments
+-- MISSING: GTIN-to-packaging-level map   → see dim_gtin_assignments
 -- MISSING: Pallet SSCC                   → see dim_gtin_assignments
 -- MISSING: Per-retailer attribute sets   → see dim_retailer_attributes
 --   (e.g. Walmart item setup fields, Costco warehouse fields, UNFI EDI fields)
