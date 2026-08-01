@@ -20,7 +20,7 @@ Most product-data pain — chargebacks, item-setup rejections, syndication error
 
 ## Cinderhaven context
 
-Built on the Cinderhaven synthetic dataset — a specialty food brand doing $33.4M TTM revenue (retail scan, through 2025-12-27), 50 SKUs across 5 product lines and 6 contracted retailers. Data is synthetic; methodology and deliverables are real.
+Built on the Cinderhaven synthetic dataset — a specialty food brand doing $33.2M TTM revenue (retail scan, through 2025-12-27), 50 SKUs across 5 product lines and 6 contracted retailers. Data is synthetic; methodology and deliverables are real.
 
 ## Data contract
 
